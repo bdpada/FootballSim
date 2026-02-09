@@ -1,3 +1,5 @@
+using FootballSim.WinForms.State;
+
 namespace FootballSim.WinForms
 {
     public partial class MainMenuForm : Form
@@ -15,8 +17,9 @@ namespace FootballSim.WinForms
             if (result == DialogResult.OK && newGameForm.CreatedFranchise != null)
             {
                 MessageBox.Show($"Selected Team: {newGameForm.CreatedFranchise.UserTeam?.Name}");
+                FranchiseContext.Set(newGameForm.CreatedFranchise);
 
-                var hub = new FranchiseHubForm(newGameForm.CreatedFranchise, this);
+                var hub = new FranchiseHubForm();
                 hub.Show();
                 this.Hide();
             }
