@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="FootballSim.Core/FootballSim.Core.csproj" />
+  <Project Path="FootballSim.Persistence/FootballSim.Persistence.csproj" />
+  <Project Path="FootballSim.WinForms/FootballSim.WinForms.csproj" />
+</Solution>
