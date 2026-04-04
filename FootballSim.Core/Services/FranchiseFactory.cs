@@ -7,11 +7,19 @@ namespace FootballSim.Core.Services
     {
         public League CreateDefaultLeague()
         {
+            var rosterGenerator = new RosterGenerator();
             var defs = DefaultTeamCatalog.GetTeams(); //from iteration 0.5
             var league = new League();
 
             foreach (var def in defs)
-                league.Teams.Add(new Team(def));
+            {
+                var team = new Team(def);
+
+                rosterGenerator.GenerateRoster(team);
+                System.Diagnostics.Debug.WriteLine($"{team.Name} roster count: {team.Roster.Count}");
+
+                league.Teams.Add(team);
+            }
 
             CreateSimpleSchedule(league);
 

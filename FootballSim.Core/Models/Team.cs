@@ -9,6 +9,7 @@
         public int DefenseRating { get; set; } = 70;
         
         public TeamRecord Record { get; } = new();
+        public List<Player> Roster { get; } = new();
 
         public Team(TeamDefinition definition, int offenseRating = 70, int defenseRating = 70)
         {

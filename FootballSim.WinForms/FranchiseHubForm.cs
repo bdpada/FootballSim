@@ -17,6 +17,13 @@ namespace FootballSim.WinForms
             InitializeComponent();
             _weekSimulationService = new WeekSimulationService(new SimpleGameSimulatorV0());
             RefreshView();
+
+            var franchise = FranchiseContext.Current;
+            if (franchise != null)
+            {
+                var team = franchise.UserTeam;
+                System.Diagnostics.Debug.WriteLine($"Roster count for {team.Name}: {team.Roster.Count}");
+            }
         }
 
         private void RefreshView()
