@@ -7,6 +7,8 @@
         // Additional properties to expand later
         public int OffenseRating { get; set; } = 70;
         public int DefenseRating { get; set; } = 70;
+        
+        public TeamRecord Record { get; } = new();
 
         public Team(TeamDefinition definition, int offenseRating = 70, int defenseRating = 70)
         {
