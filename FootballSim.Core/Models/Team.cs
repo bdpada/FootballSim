@@ -1,4 +1,6 @@
-﻿namespace FootballSim.Core.Models
+﻿using System.Collections.Generic;
+
+namespace FootballSim.Core.Models
 {
     public sealed class Team
     {
@@ -10,6 +12,7 @@
         
         public TeamRecord Record { get; } = new();
         public List<Player> Roster { get; } = new();
+        public DepthChart? DepthChart { get; set; }
 
         public Team(TeamDefinition definition, int offenseRating = 70, int defenseRating = 70)
         {

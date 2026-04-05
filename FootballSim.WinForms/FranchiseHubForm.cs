@@ -1,4 +1,5 @@
-﻿using FootballSim.Core.Services;
+﻿using FootballSim.Core.Models;
+using FootballSim.Core.Services;
 using FootballSim.WinForms.State;
 using System;
 using System.Linq;
@@ -39,6 +40,9 @@ namespace FootballSim.WinForms
 
             lblUserTeam.Text = $"User Team: {franchise.UserTeam?.Name} ({franchise.UserTeamId})";
             lblWeek.Text = $"Week: {franchise.CurrentWeek}";
+
+            lblOffOvr.Text = $"Off OVR: {franchise.UserTeam?.OffenseRating ?? 0}";
+            lblDefOvr.Text = $"Def OVR: {franchise.UserTeam?.DefenseRating ?? 0}";
 
             RefreshStandings();
 
@@ -138,6 +142,14 @@ namespace FootballSim.WinForms
             }
 
             txtResults.Text = sb.ToString();
+
+            RefreshView();
+        }
+
+        private void btnViewRoster_Click(object sender, EventArgs e)
+        {
+            using var rosterForm = new RosterForm();
+            rosterForm.ShowDialog();
 
             RefreshView();
         }

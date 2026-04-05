@@ -7,16 +7,45 @@ namespace FootballSim.Core.Services
     {
         public League CreateDefaultLeague()
         {
-            var rosterGenerator = new RosterGenerator();
             var defs = DefaultTeamCatalog.GetTeams(); //from iteration 0.5
             var league = new League();
+
+            var rosterGenerator = new RosterGenerator();
+            var depthChartService = new DepthChartService();
+            var teamRatingCalculator = new TeamRatingCalculator();
 
             foreach (var def in defs)
             {
                 var team = new Team(def);
 
                 rosterGenerator.GenerateRoster(team);
-                System.Diagnostics.Debug.WriteLine($"{team.Name} roster count: {team.Roster.Count}");
+                team.DepthChart = depthChartService.CreateDefaultDepthChart(team.Roster);
+                teamRatingCalculator.ApplyCalculatedRatings(team);
+
+                // Debug test output for Arizona
+                //if (team.Id == "ARI" && team.DepthChart != null)
+                //{
+                //    System.Diagnostics.Debug.WriteLine($"{team.Name} roster count: {team.Roster.Count}");
+
+                //    WriteDepthChartDebug(team, depthChartService, PlayerPosition.QB);
+                //    WriteDepthChartDebug(team, depthChartService, PlayerPosition.RB);
+                //    WriteDepthChartDebug(team, depthChartService, PlayerPosition.WR);
+                //    WriteDepthChartDebug(team, depthChartService, PlayerPosition.TE);
+                //    WriteDepthChartDebug(team, depthChartService, PlayerPosition.C);
+                //    WriteDepthChartDebug(team, depthChartService, PlayerPosition.G);
+                //    WriteDepthChartDebug(team, depthChartService, PlayerPosition.T);
+                //    WriteDepthChartDebug(team, depthChartService, PlayerPosition.DE);
+                //    WriteDepthChartDebug(team, depthChartService, PlayerPosition.DT);
+                //    WriteDepthChartDebug(team, depthChartService, PlayerPosition.ILB);
+                //    WriteDepthChartDebug(team, depthChartService, PlayerPosition.OLB);
+                //    WriteDepthChartDebug(team, depthChartService, PlayerPosition.CB);
+                //    WriteDepthChartDebug(team, depthChartService, PlayerPosition.S);
+                //    WriteDepthChartDebug(team, depthChartService, PlayerPosition.K);
+
+                //    System.Diagnostics.Debug.WriteLine($"{team.Name} Offense Rating: {team.OffenseRating}");
+                //    System.Diagnostics.Debug.WriteLine($"{team.Name} Defense Rating: {team.DefenseRating}");
+                //    System.Diagnostics.Debug.WriteLine(string.Empty);
+                //}
 
                 league.Teams.Add(team);
             }
@@ -30,6 +59,32 @@ namespace FootballSim.Core.Services
         {
             var league = CreateDefaultLeague();
             return new FranchiseState(league, userTeamId);
+        }
+
+        private void WriteDepthChartDebug(Team team, DepthChartService depthChartService, PlayerPosition position)
+        {
+            if (team.DepthChart == null)
+                return;
+
+            var playersAtPosition = team.DepthChart.GetPlayersAtPosition(position);
+            var starters = depthChartService.GetStarters(team.DepthChart, position);
+
+            System.Diagnostics.Debug.WriteLine($"--- {team.Name} {position} Depth Chart ---");
+
+            for (int i = 0; i < playersAtPosition.Count; i++)
+            {
+                var player = playersAtPosition[i];
+                System.Diagnostics.Debug.WriteLine($"{i + 1}. {player.FullName} - {player.Position} - OVR {player.Overall}");
+            }
+
+            System.Diagnostics.Debug.WriteLine($"Starters for {position}:");
+
+            foreach (var starter in starters)
+            {
+                System.Diagnostics.Debug.WriteLine($"   {starter.FullName} - OVR {starter.Overall}");
+            }
+
+            System.Diagnostics.Debug.WriteLine(string.Empty);
         }
 
         private void CreateSimpleSchedule(League league)
