@@ -12,19 +12,13 @@ namespace FootballSim.WinForms
     {
         private bool _isNavigatingToMainMenu = false;
         private readonly WeekSimulationService _weekSimulationService;
+        private readonly DepthChartService _depthChartService = new();
 
         public FranchiseHubForm()
         {
             InitializeComponent();
             _weekSimulationService = new WeekSimulationService(new SimpleGameSimulatorV0());
             RefreshView();
-
-            var franchise = FranchiseContext.Current;
-            if (franchise != null)
-            {
-                var team = franchise.UserTeam;
-                System.Diagnostics.Debug.WriteLine($"Roster count for {team.Name}: {team.Roster.Count}");
-            }
         }
 
         private void RefreshView()
@@ -44,6 +38,7 @@ namespace FootballSim.WinForms
             lblOffOvr.Text = $"Off OVR: {franchise.UserTeam?.OffenseRating ?? 0}";
             lblDefOvr.Text = $"Def OVR: {franchise.UserTeam?.DefenseRating ?? 0}";
 
+            RefreshTeamStatus();
             RefreshStandings();
 
             bool hasGamesRemaining = franchise.League.Schedule.GetGamesForWeek(franchise.CurrentWeek).Count > 0;
@@ -84,6 +79,73 @@ namespace FootballSim.WinForms
             }
 
             txtStandings.Text = sb.ToString();
+        }
+
+        private void RefreshTeamStatus()
+        {
+            if (FranchiseContext.Current?.UserTeam?.DepthChart == null)
+            {
+                txtTeamStatus.Text = "No team status available.";
+                return;
+            }
+
+            var team = FranchiseContext.Current.UserTeam;
+            var sb = new StringBuilder();
+
+            sb.AppendLine("Team Status");
+            sb.AppendLine();
+
+            foreach (PlayerPosition position in Enum.GetValues(typeof(PlayerPosition)))
+            {
+                bool hasInjuredStarters = _depthChartService.HasInjuredPlayersAboveHealthyStarters(team.DepthChart, position);
+                bool hasEnoughHealthyPlayers = _depthChartService.HasEnoughHealthyPlayers(team.DepthChart, position);
+
+                if (hasInjuredStarters)
+                {
+                    sb.AppendLine($"{position}: injured player(s) in the top of the depth chart.");
+                }
+
+                if (!hasEnoughHealthyPlayers)
+                {
+                    sb.AppendLine($"{position}: not enough healthy players to fill starter slots.");
+                }
+            }
+
+            if (sb.ToString().Trim() == "Team Status")
+            {
+                sb.AppendLine("No major roster concerns this week.");
+            }
+
+            txtTeamStatus.Text = sb.ToString();
+        }
+
+        private string BuildUserTeamInjurySummary()
+        {
+            if (FranchiseContext.Current?.UserTeam == null)
+                return "No injury information available.";
+
+            var team = FranchiseContext.Current.UserTeam;
+
+            var injuredPlayers = team.Roster
+                .Where(p => p.IsInjured)
+                .OrderBy(p => p.Position)
+                .ThenByDescending(p => p.Overall)
+                .ToList();
+
+            if (injuredPlayers.Count == 0)
+            {
+                return "No currently injured players on your team.";
+            }
+
+            var sb = new StringBuilder();
+            sb.AppendLine("Current Injuries:");
+
+            foreach (var player in injuredPlayers)
+            {
+                sb.AppendLine($"- {player.FullName} ({player.Position}, OVR {player.Overall}) - Out {player.InjuryWeeksRemaining} week(s)");
+            }
+
+            return sb.ToString();
         }
 
         private void ReturnToMainMenu()
@@ -140,6 +202,9 @@ namespace FootballSim.WinForms
                 sb.AppendLine("Your Team Result:");
                 sb.AppendLine($"{userTeamGame.AwayTeam.Name} {userTeamGame.AwayStats.Points} - {userTeamGame.HomeStats.Points} {userTeamGame.HomeTeam.Name}");
             }
+
+            sb.AppendLine();
+            sb.AppendLine(BuildUserTeamInjurySummary());
 
             txtResults.Text = sb.ToString();
 

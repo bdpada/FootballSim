@@ -31,7 +31,33 @@ namespace FootballSim.Core.Services
         public List<Player> GetStarters(DepthChart depthChart, PlayerPosition position)
         {
             int starterCount = DepthChartRules.GetStarterCount(position);
-            return depthChart.GetStartersAtPosition(position, starterCount);
+
+            return depthChart
+                .GetPlayersAtPosition(position)
+                .Where(p => !p.IsInjured)
+                .Take(starterCount)
+                .ToList();
+        }
+
+        public bool HasInjuredPlayersAboveHealthyStarters(DepthChart depthChart, PlayerPosition position)
+        {
+            int starterCount = DepthChartRules.GetStarterCount(position);
+            var players = depthChart.GetPlayersAtPosition(position);
+
+            return players
+                .Take(starterCount)
+                .Any(p => p.IsInjured);
+        }
+
+        public bool HasEnoughHealthyPlayers(DepthChart depthChart, PlayerPosition position)
+        {
+            int starterCount = DepthChartRules.GetStarterCount(position);
+
+            int healthyCount = depthChart
+                .GetPlayersAtPosition(position)
+                .Count(p => !p.IsInjured);
+
+            return healthyCount >= starterCount;
         }
 
         public bool MovePlayerUp(DepthChart depthChart, PlayerPosition position, string playerId)
