@@ -45,6 +45,19 @@ namespace FootballSim.Core.Services
                 //    System.Diagnostics.Debug.WriteLine($"{team.Name} Offense Rating: {team.OffenseRating}");
                 //    System.Diagnostics.Debug.WriteLine($"{team.Name} Defense Rating: {team.DefenseRating}");
                 //    System.Diagnostics.Debug.WriteLine(string.Empty);
+
+                //    var player = new Player("9999999999", "Test", "Player", PlayerPosition.QB, 99, 25, 2, team.Id);
+                //    team.Roster.Add(player);
+                //    team.DepthChart = depthChartService.CreateDefaultDepthChart(team.Roster);
+
+                //    player.ApplyInjury(3);
+
+                //    System.Diagnostics.Debug.WriteLine(player.ToString());
+                //    // Should show: [OUT 3w]
+
+                //    player.AdvanceWeek();
+                //    System.Diagnostics.Debug.WriteLine(player.ToString());
+                //    // Should show: [OUT 2w]
                 //}
 
                 league.Teams.Add(team);

@@ -56,8 +56,22 @@ namespace FootballSim.WinForms
 
             foreach (var player in players)
             {
-                string starterTag = starterIds.Contains(player.Id) ? "[Starter] " : "          ";
-                lstPlayers.Items.Add(new PlayerListItem(player, $"{starterTag}{player.FullName} - {player.Position} - OVR {player.Overall}"));
+                bool isStarter = starterIds.Contains(player.Id);
+
+                string roleTag = isStarter ? "[Starter] " : "          ";
+                string injuryTag = player.IsInjured ? $" [OUT {player.InjuryWeeksRemaining}w]" : "";
+
+                if (isStarter && player.IsInjured)
+                {
+                    roleTag = "[Starter-OUT] ";
+                }
+
+                lstPlayers.Items.Add(
+                    new PlayerListItem(
+                        player,
+                        $"{roleTag}{player.FullName} - {player.Position} - OVR {player.Overall}{injuryTag}"
+                    )
+                );
             }
         }
 
