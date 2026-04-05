@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using FootballSim.Core.Models;
+﻿using FootballSim.Core.Models;
 
 namespace FootballSim.Core.Services
 {
     public sealed class WeekSimulationService
     {
         private readonly IGameSimulator _gameSimulator;
-        private readonly Random _random = new();
 
         public WeekSimulationService(IGameSimulator gameSimulator)
         {
@@ -37,12 +34,6 @@ namespace FootballSim.Core.Services
                 ApplyResultToRecords(result);
             }
 
-            // Players who were already injured recover by one week
-            AdvancePlayerRecovery(franchise);
-
-            // Apply a few new injuries from the simulated week
-            ApplyWeeklyInjuries(franchise, scheduledGames);
-
             franchise.League.CompletedWeeks.Add(weekResult);
             franchise.CurrentWeek++;
 
@@ -69,46 +60,6 @@ namespace FootballSim.Core.Services
             {
                 away.Record.Wins++;
                 home.Record.Losses++;
-            }
-        }
-
-        private void AdvancePlayerRecovery(FranchiseState franchise)
-        {
-            foreach (var team in franchise.League.Teams)
-            {
-                foreach (var player in team.Roster)
-                {
-                    player.AdvanceWeek();
-                }
-            }
-        }
-
-        private void ApplyWeeklyInjuries(FranchiseState franchise, List<ScheduledGame> scheduledGames)
-        {
-            foreach (var game in scheduledGames)
-            {
-                ApplyInjuriesToTeam(game.HomeTeam);
-                ApplyInjuriesToTeam(game.AwayTeam);
-            }
-        }
-
-        private void ApplyInjuriesToTeam(Team team)
-        {
-            foreach (var player in team.Roster)
-            {
-                if (player.IsInjured)
-                {
-                    continue;
-                }
-
-                // MVP injury chance: about 3% per healthy player per simulated week
-                int injuryRoll = _random.Next(1, 101);
-
-                if (injuryRoll <= 3)
-                {
-                    int injuryLength = _random.Next(1, 5); // 1 to 4 weeks
-                    player.ApplyInjury(injuryLength);
-                }
             }
         }
     }
