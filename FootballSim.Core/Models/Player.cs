@@ -13,6 +13,9 @@ namespace FootballSim.Core.Models
         public int YearsPro { get; set; }
         public string TeamId { get; set; }
 
+        public bool IsInjured => InjuryWeeksRemaining > 0;
+        public int InjuryWeeksRemaining { get; private set; }
+
         public string FullName => $"{FirstName} {LastName}";
 
         public Player(
@@ -35,9 +38,23 @@ namespace FootballSim.Core.Models
             TeamId = teamId;
         }
 
+        public void ApplyInjury(int weeks)
+        {
+            InjuryWeeksRemaining = Math.Max(InjuryWeeksRemaining, weeks);
+        }
+
+        public void AdvanceWeek()
+        {
+            if (InjuryWeeksRemaining > 0)
+            {
+                InjuryWeeksRemaining--;
+            }
+        }
+
         public override string ToString()
         {
-            return $"{FullName} - {Position} ({Overall})";
+            string injuryStatus = IsInjured ? $" [OUT {InjuryWeeksRemaining}w]" : "";
+            return $"{FullName} - {Position} ({Overall}){injuryStatus}";
         }
     }
 }
