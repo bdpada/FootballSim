@@ -43,13 +43,20 @@ namespace FootballSim.WinForms
             txtTeamStatus = new TextBox();
             lblResultsHeader = new Label();
             lblStandingsHeader = new Label();
+            lblGameplanHeader = new Label();
             lblTeamStatusHeader = new Label();
+            lblOffenseFocus = new Label();
+            cmbOffenseFocus = new ComboBox();
+            lblDefenseFocus = new Label();
+            cmbDefenseFocus = new ComboBox();
+            pnlGameplan = new TableLayoutPanel();
             mainLayout = new TableLayoutPanel();
             headerLayout = new TableLayoutPanel();
             actionLayout = new FlowLayoutPanel();
             contentLayout = new TableLayoutPanel();
             leftColumnLayout = new TableLayoutPanel();
             rightColumnLayout = new TableLayoutPanel();
+            pnlGameplan.SuspendLayout();
             mainLayout.SuspendLayout();
             headerLayout.SuspendLayout();
             actionLayout.SuspendLayout();
@@ -164,18 +171,18 @@ namespace FootballSim.WinForms
             txtStandings.Name = "txtStandings";
             txtStandings.ReadOnly = true;
             txtStandings.ScrollBars = ScrollBars.Vertical;
-            txtStandings.Size = new Size(304, 211);
+            txtStandings.Size = new Size(304, 149);
             txtStandings.TabIndex = 8;
             // 
             // txtTeamStatus
             // 
             txtTeamStatus.Dock = DockStyle.Fill;
-            txtTeamStatus.Location = new Point(3, 276);
+            txtTeamStatus.Location = new Point(3, 338);
             txtTeamStatus.Multiline = true;
             txtTeamStatus.Name = "txtTeamStatus";
             txtTeamStatus.ReadOnly = true;
             txtTeamStatus.ScrollBars = ScrollBars.Vertical;
-            txtTeamStatus.Size = new Size(304, 228);
+            txtTeamStatus.Size = new Size(304, 166);
             txtTeamStatus.TabIndex = 9;
             // 
             // lblResultsHeader
@@ -202,17 +209,93 @@ namespace FootballSim.WinForms
             lblStandingsHeader.Text = "Standings";
             lblStandingsHeader.TextAlign = ContentAlignment.MiddleLeft;
             // 
+            // lblGameplanHeader
+            // 
+            lblGameplanHeader.AutoSize = true;
+            lblGameplanHeader.Dock = DockStyle.Fill;
+            lblGameplanHeader.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            lblGameplanHeader.Location = new Point(3, 183);
+            lblGameplanHeader.Name = "lblGameplanHeader";
+            lblGameplanHeader.Size = new Size(304, 28);
+            lblGameplanHeader.TabIndex = 12;
+            lblGameplanHeader.Text = "Weekly Gameplan";
+            lblGameplanHeader.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // lblTeamStatusHeader
             // 
             lblTeamStatusHeader.AutoSize = true;
             lblTeamStatusHeader.Dock = DockStyle.Fill;
             lblTeamStatusHeader.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            lblTeamStatusHeader.Location = new Point(3, 245);
+            lblTeamStatusHeader.Location = new Point(3, 307);
             lblTeamStatusHeader.Name = "lblTeamStatusHeader";
             lblTeamStatusHeader.Size = new Size(304, 28);
-            lblTeamStatusHeader.TabIndex = 12;
+            lblTeamStatusHeader.TabIndex = 13;
             lblTeamStatusHeader.Text = "Team Status";
             lblTeamStatusHeader.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // lblOffenseFocus
+            // 
+            lblOffenseFocus.AutoSize = true;
+            lblOffenseFocus.Dock = DockStyle.Fill;
+            lblOffenseFocus.Location = new Point(3, 0);
+            lblOffenseFocus.Name = "lblOffenseFocus";
+            lblOffenseFocus.Size = new Size(102, 46);
+            lblOffenseFocus.TabIndex = 0;
+            lblOffenseFocus.Text = "Offense Focus";
+            lblOffenseFocus.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // cmbOffenseFocus
+            // 
+            cmbOffenseFocus.Dock = DockStyle.Fill;
+            cmbOffenseFocus.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbOffenseFocus.FormattingEnabled = true;
+            cmbOffenseFocus.Location = new Point(111, 11);
+            cmbOffenseFocus.Margin = new Padding(3, 11, 3, 11);
+            cmbOffenseFocus.Name = "cmbOffenseFocus";
+            cmbOffenseFocus.Size = new Size(190, 23);
+            cmbOffenseFocus.TabIndex = 1;
+            cmbOffenseFocus.SelectedIndexChanged += cmbOffenseFocus_SelectedIndexChanged;
+            // 
+            // lblDefenseFocus
+            // 
+            lblDefenseFocus.AutoSize = true;
+            lblDefenseFocus.Dock = DockStyle.Fill;
+            lblDefenseFocus.Location = new Point(3, 46);
+            lblDefenseFocus.Name = "lblDefenseFocus";
+            lblDefenseFocus.Size = new Size(102, 46);
+            lblDefenseFocus.TabIndex = 2;
+            lblDefenseFocus.Text = "Defense Focus";
+            lblDefenseFocus.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // cmbDefenseFocus
+            // 
+            cmbDefenseFocus.Dock = DockStyle.Fill;
+            cmbDefenseFocus.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbDefenseFocus.FormattingEnabled = true;
+            cmbDefenseFocus.Location = new Point(111, 57);
+            cmbDefenseFocus.Margin = new Padding(3, 11, 3, 11);
+            cmbDefenseFocus.Name = "cmbDefenseFocus";
+            cmbDefenseFocus.Size = new Size(190, 23);
+            cmbDefenseFocus.TabIndex = 3;
+            cmbDefenseFocus.SelectedIndexChanged += cmbDefenseFocus_SelectedIndexChanged;
+            // 
+            // pnlGameplan
+            // 
+            pnlGameplan.ColumnCount = 2;
+            pnlGameplan.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35.52632F));
+            pnlGameplan.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 64.47369F));
+            pnlGameplan.Controls.Add(lblOffenseFocus, 0, 0);
+            pnlGameplan.Controls.Add(cmbOffenseFocus, 1, 0);
+            pnlGameplan.Controls.Add(lblDefenseFocus, 0, 1);
+            pnlGameplan.Controls.Add(cmbDefenseFocus, 1, 1);
+            pnlGameplan.Dock = DockStyle.Fill;
+            pnlGameplan.Location = new Point(3, 214);
+            pnlGameplan.Name = "pnlGameplan";
+            pnlGameplan.RowCount = 2;
+            pnlGameplan.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            pnlGameplan.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            pnlGameplan.Size = new Size(304, 90);
+            pnlGameplan.TabIndex = 14;
             // 
             // mainLayout
             // 
@@ -229,7 +312,7 @@ namespace FootballSim.WinForms
             mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 48F));
             mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             mainLayout.Size = new Size(786, 513);
-            mainLayout.TabIndex = 13;
+            mainLayout.TabIndex = 15;
             // 
             // headerLayout
             // 
@@ -296,16 +379,20 @@ namespace FootballSim.WinForms
             rightColumnLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             rightColumnLayout.Controls.Add(lblStandingsHeader, 0, 0);
             rightColumnLayout.Controls.Add(txtStandings, 0, 1);
-            rightColumnLayout.Controls.Add(lblTeamStatusHeader, 0, 2);
-            rightColumnLayout.Controls.Add(txtTeamStatus, 0, 3);
+            rightColumnLayout.Controls.Add(lblGameplanHeader, 0, 2);
+            rightColumnLayout.Controls.Add(pnlGameplan, 0, 3);
+            rightColumnLayout.Controls.Add(lblTeamStatusHeader, 0, 4);
+            rightColumnLayout.Controls.Add(txtTeamStatus, 0, 5);
             rightColumnLayout.Dock = DockStyle.Fill;
             rightColumnLayout.Location = new Point(475, 3);
             rightColumnLayout.Name = "rightColumnLayout";
-            rightColumnLayout.RowCount = 4;
+            rightColumnLayout.RowCount = 6;
             rightColumnLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
-            rightColumnLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 48F));
+            rightColumnLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 44F));
             rightColumnLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
-            rightColumnLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 52F));
+            rightColumnLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 96F));
+            rightColumnLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            rightColumnLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 56F));
             rightColumnLayout.Size = new Size(302, 393);
             rightColumnLayout.TabIndex = 1;
             // 
@@ -320,6 +407,8 @@ namespace FootballSim.WinForms
             Padding = new Padding(12);
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Franchise Hub";
+            pnlGameplan.ResumeLayout(false);
+            pnlGameplan.PerformLayout();
             mainLayout.ResumeLayout(false);
             headerLayout.ResumeLayout(false);
             headerLayout.PerformLayout();
@@ -347,7 +436,13 @@ namespace FootballSim.WinForms
         private TextBox txtTeamStatus;
         private Label lblResultsHeader;
         private Label lblStandingsHeader;
+        private Label lblGameplanHeader;
         private Label lblTeamStatusHeader;
+        private Label lblOffenseFocus;
+        private ComboBox cmbOffenseFocus;
+        private Label lblDefenseFocus;
+        private ComboBox cmbDefenseFocus;
+        private TableLayoutPanel pnlGameplan;
         private TableLayoutPanel mainLayout;
         private TableLayoutPanel headerLayout;
         private FlowLayoutPanel actionLayout;

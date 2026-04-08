@@ -11,15 +11,79 @@ namespace FootballSim.WinForms
     public partial class FranchiseHubForm : Form
     {
         private bool _isNavigatingToMainMenu = false;
+        private bool _isLoadingGameplanControls = false;
         private readonly WeekSimulationService _weekSimulationService;
         private readonly DepthChartService _depthChartService = new();
+
+        private void LoadGameplanControls()
+        {
+            if (FranchiseContext.Current == null)
+                return;
+
+            _isLoadingGameplanControls = true;
+
+            cmbOffenseFocus.DataSource = Enum.GetValues(typeof(OffenseFocus));
+            cmbDefenseFocus.DataSource = Enum.GetValues(typeof(DefenseFocus));
+
+            cmbOffenseFocus.SelectedItem = FranchiseContext.Current.WeeklyGameplan.OffenseFocus;
+            cmbDefenseFocus.SelectedItem = FranchiseContext.Current.WeeklyGameplan.DefenseFocus;
+
+            _isLoadingGameplanControls = false;
+        }
+
+        private void RefreshGameplanDisplay()
+        {
+            if (FranchiseContext.Current == null)
+                return;
+
+            _isLoadingGameplanControls = true;
+
+            cmbOffenseFocus.SelectedItem = FranchiseContext.Current.WeeklyGameplan.OffenseFocus;
+            cmbDefenseFocus.SelectedItem = FranchiseContext.Current.WeeklyGameplan.DefenseFocus;
+
+            _isLoadingGameplanControls = false;
+        }
+
+        private void cmbOffenseFocus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_isLoadingGameplanControls || FranchiseContext.Current == null)
+                return;
+
+            if (cmbOffenseFocus.SelectedItem is OffenseFocus offenseFocus)
+            {
+                FranchiseContext.Current.WeeklyGameplan.OffenseFocus = offenseFocus;
+            }
+        }
+
+        private void cmbDefenseFocus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_isLoadingGameplanControls || FranchiseContext.Current == null)
+                return;
+
+            if (cmbDefenseFocus.SelectedItem is DefenseFocus defenseFocus)
+            {
+                FranchiseContext.Current.WeeklyGameplan.DefenseFocus = defenseFocus;
+            }
+        }
+
+        private WeeklyGameplan? GetWeeklyGameplanForTeam(Team team)
+        {
+            if (FranchiseContext.Current?.UserTeamId == team.Id)
+            {
+                return FranchiseContext.Current.WeeklyGameplan;
+            }
+
+            return null;
+        }
 
         public FranchiseHubForm()
         {
             InitializeComponent();
-            _weekSimulationService = new WeekSimulationService(new SimpleGameSimulatorV0());
+            LoadGameplanControls();
+            _weekSimulationService = new WeekSimulationService(new SimpleGameSimulatorV1(GetWeeklyGameplanForTeam));
             RefreshView();
         }
+
 
         private void RefreshView()
         {
@@ -40,6 +104,7 @@ namespace FootballSim.WinForms
 
             RefreshTeamStatus();
             RefreshStandings();
+            RefreshGameplanDisplay();
 
             bool hasGamesRemaining = franchise.League.Schedule.GetGamesForWeek(franchise.CurrentWeek).Count > 0;
             btnSimWeek.Enabled = hasGamesRemaining;
