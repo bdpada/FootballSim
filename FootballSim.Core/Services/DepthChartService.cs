@@ -48,7 +48,10 @@ namespace FootballSim.Core.Services
                 return false;
 
             var reordered = players
-                .OrderBy(p => p.IsInjured) // healthy first, injured last
+                .OrderBy(p => p.IsInjured)              // healthy first
+                .ThenByDescending(p => p.Overall)       // best healthy players at top
+                .ThenBy(p => p.LastName)
+                .ThenBy(p => p.FirstName)
                 .ToList();
 
             bool changed = !players.Select(p => p.Id).SequenceEqual(reordered.Select(p => p.Id));
