@@ -34,6 +34,8 @@
             this.lstPlayers = new System.Windows.Forms.ListBox();
             this.btnMoveUp = new System.Windows.Forms.Button();
             this.btnMoveDown = new System.Windows.Forms.Button();
+            this.btnAutoFixPosition = new System.Windows.Forms.Button();
+            this.btnAutoFixAll = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -96,12 +98,32 @@
             this.btnMoveDown.UseVisualStyleBackColor = true;
             this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
             // 
+            // btnAutoFixPosition
+            // 
+            this.btnAutoFixPosition.Location = new System.Drawing.Point(568, 226);
+            this.btnAutoFixPosition.Name = "btnAutoFixPosition";
+            this.btnAutoFixPosition.Size = new System.Drawing.Size(120, 40);
+            this.btnAutoFixPosition.TabIndex = 6;
+            this.btnAutoFixPosition.Text = "Auto Fix Position";
+            this.btnAutoFixPosition.UseVisualStyleBackColor = true;
+            this.btnAutoFixPosition.Click += new System.EventHandler(this.btnAutoFixPosition_Click);
+            // 
+            // btnAutoFixAll
+            // 
+            this.btnAutoFixAll.Location = new System.Drawing.Point(568, 278);
+            this.btnAutoFixAll.Name = "btnAutoFixAll";
+            this.btnAutoFixAll.Size = new System.Drawing.Size(120, 40);
+            this.btnAutoFixAll.TabIndex = 7;
+            this.btnAutoFixAll.Text = "Auto Fix All";
+            this.btnAutoFixAll.UseVisualStyleBackColor = true;
+            this.btnAutoFixAll.Click += new System.EventHandler(this.btnAutoFixAll_Click);
+            // 
             // btnClose
             // 
             this.btnClose.Location = new System.Drawing.Point(568, 349);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(120, 32);
-            this.btnClose.TabIndex = 6;
+            this.btnClose.TabIndex = 8;
             this.btnClose.Text = "Close";
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
@@ -111,6 +133,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(714, 411);
+            this.Controls.Add(this.btnAutoFixAll);
+            this.Controls.Add(this.btnAutoFixPosition);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnMoveDown);
             this.Controls.Add(this.btnMoveUp);
@@ -136,6 +160,8 @@
         private System.Windows.Forms.ListBox lstPlayers;
         private System.Windows.Forms.Button btnMoveUp;
         private System.Windows.Forms.Button btnMoveDown;
+        private System.Windows.Forms.Button btnAutoFixPosition;
+        private System.Windows.Forms.Button btnAutoFixAll;
         private System.Windows.Forms.Button btnClose;
     }
 }

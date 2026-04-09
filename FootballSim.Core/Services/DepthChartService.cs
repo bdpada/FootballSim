@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System;
 using FootballSim.Core.Models;
 
 namespace FootballSim.Core.Services
@@ -37,6 +38,44 @@ namespace FootballSim.Core.Services
                 .Where(p => !p.IsInjured)
                 .Take(starterCount)
                 .ToList();
+        }
+
+        public bool AutoFixPosition(DepthChart depthChart, PlayerPosition position)
+        {
+            var players = depthChart.GetPlayersAtPosition(position);
+
+            if (players.Count == 0)
+                return false;
+
+            var reordered = players
+                .OrderBy(p => p.IsInjured) // healthy first, injured last
+                .ToList();
+
+            bool changed = !players.Select(p => p.Id).SequenceEqual(reordered.Select(p => p.Id));
+
+            if (changed)
+            {
+                depthChart.SetPlayersForPosition(position, reordered);
+            }
+
+            return changed;
+        }
+
+        public bool AutoFixAllPositions(DepthChart depthChart)
+        {
+            bool anyChanged = false;
+
+            foreach (PlayerPosition position in Enum.GetValues(typeof(PlayerPosition)))
+            {
+                bool changed = AutoFixPosition(depthChart, position);
+
+                if (changed)
+                {
+                    anyChanged = true;
+                }
+            }
+
+            return anyChanged;
         }
 
         public bool HasInjuredPlayersAboveHealthyStarters(DepthChart depthChart, PlayerPosition position)

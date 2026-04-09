@@ -121,91 +121,52 @@ namespace FootballSim.Core.Services
             }
 
             // Week 1
-            league.Schedule.Games.Add(new ScheduledGame
-            {
-                WeekNumber = 1,
-                HomeTeam = ari,
-                AwayTeam = lar
-            });
-
-            league.Schedule.Games.Add(new ScheduledGame
-            {
-                WeekNumber = 1,
-                HomeTeam = sea,
-                AwayTeam = sf
-            });
-
-            league.Schedule.Games.Add(new ScheduledGame
-            {
-                WeekNumber = 1,
-                HomeTeam = dal,
-                AwayTeam = nyg
-            });
-
-            league.Schedule.Games.Add(new ScheduledGame
-            {
-                WeekNumber = 1,
-                HomeTeam = phi,
-                AwayTeam = was
-            });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 1, HomeTeam = ari, AwayTeam = lar });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 1, HomeTeam = sea, AwayTeam = sf });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 1, HomeTeam = dal, AwayTeam = nyg });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 1, HomeTeam = phi, AwayTeam = was });
 
             // Week 2
-            league.Schedule.Games.Add(new ScheduledGame
-            {
-                WeekNumber = 2,
-                HomeTeam = ari,
-                AwayTeam = sea
-            });
-
-            league.Schedule.Games.Add(new ScheduledGame
-            {
-                WeekNumber = 2,
-                HomeTeam = lar,
-                AwayTeam = sf
-            });
-
-            league.Schedule.Games.Add(new ScheduledGame
-            {
-                WeekNumber = 2,
-                HomeTeam = dal,
-                AwayTeam = phi
-            });
-
-            league.Schedule.Games.Add(new ScheduledGame
-            {
-                WeekNumber = 2,
-                HomeTeam = nyg,
-                AwayTeam = was
-            });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 2, HomeTeam = ari, AwayTeam = sea });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 2, HomeTeam = lar, AwayTeam = sf });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 2, HomeTeam = dal, AwayTeam = phi });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 2, HomeTeam = nyg, AwayTeam = was });
 
             // Week 3
-            league.Schedule.Games.Add(new ScheduledGame
-            {
-                WeekNumber = 3,
-                HomeTeam = ari,
-                AwayTeam = sf
-            });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 3, HomeTeam = ari, AwayTeam = sf });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 3, HomeTeam = lar, AwayTeam = sea });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 3, HomeTeam = dal, AwayTeam = was });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 3, HomeTeam = nyg, AwayTeam = phi });
 
-            league.Schedule.Games.Add(new ScheduledGame
-            {
-                WeekNumber = 3,
-                HomeTeam = lar,
-                AwayTeam = sea
-            });
+            // Week 4
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 4, HomeTeam = lar, AwayTeam = ari });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 4, HomeTeam = sf, AwayTeam = sea });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 4, HomeTeam = nyg, AwayTeam = dal });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 4, HomeTeam = was, AwayTeam = phi });
 
-            league.Schedule.Games.Add(new ScheduledGame
-            {
-                WeekNumber = 3,
-                HomeTeam = dal,
-                AwayTeam = was
-            });
+            // Week 5
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 5, HomeTeam = sea, AwayTeam = ari });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 5, HomeTeam = sf, AwayTeam = lar });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 5, HomeTeam = phi, AwayTeam = dal });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 5, HomeTeam = was, AwayTeam = nyg });
 
-            league.Schedule.Games.Add(new ScheduledGame
-            {
-                WeekNumber = 3,
-                HomeTeam = nyg,
-                AwayTeam = phi
-            });
+            // Week 6
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 6, HomeTeam = sf, AwayTeam = ari });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 6, HomeTeam = sea, AwayTeam = lar });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 6, HomeTeam = was, AwayTeam = dal });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 6, HomeTeam = phi, AwayTeam = nyg });
+
+            // Week 7
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 7, HomeTeam = ari, AwayTeam = dal });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 7, HomeTeam = lar, AwayTeam = nyg });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 7, HomeTeam = sea, AwayTeam = phi });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 7, HomeTeam = sf, AwayTeam = was });
+
+            // Week 8
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 8, HomeTeam = dal, AwayTeam = ari });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 8, HomeTeam = nyg, AwayTeam = lar });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 8, HomeTeam = phi, AwayTeam = sea });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 8, HomeTeam = was, AwayTeam = sf });
         }
     }
 }

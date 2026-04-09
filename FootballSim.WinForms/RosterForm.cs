@@ -127,6 +127,49 @@ namespace FootballSim.WinForms
             }
         }
 
+        private void btnAutoFixPosition_Click(object sender, EventArgs e)
+        {
+            var team = FranchiseContext.Current?.UserTeam;
+            if (team?.DepthChart == null)
+                return;
+
+            if (cmbPositions.SelectedItem is not PlayerPosition position)
+                return;
+
+            bool changed = _depthChartService.AutoFixPosition(team.DepthChart, position);
+
+            if (changed)
+            {
+                _teamRatingCalculator.ApplyCalculatedRatings(team);
+                RefreshPlayerList();
+                MessageBox.Show($"{position} depth chart auto-fixed.", "Auto Fix Complete");
+            }
+            else
+            {
+                MessageBox.Show($"{position} depth chart did not need any changes.", "Auto Fix");
+            }
+        }
+
+        private void btnAutoFixAll_Click(object sender, EventArgs e)
+        {
+            var team = FranchiseContext.Current?.UserTeam;
+            if (team?.DepthChart == null)
+                return;
+
+            bool changed = _depthChartService.AutoFixAllPositions(team.DepthChart);
+
+            if (changed)
+            {
+                _teamRatingCalculator.ApplyCalculatedRatings(team);
+                RefreshPlayerList();
+                MessageBox.Show("All position groups were auto-fixed.", "Auto Fix Complete");
+            }
+            else
+            {
+                MessageBox.Show("No lineup changes were needed.", "Auto Fix");
+            }
+        }
+
         private void btnClose_Click(object sender, EventArgs e)
         {
             Close();
