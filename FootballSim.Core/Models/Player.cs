@@ -4,19 +4,22 @@ namespace FootballSim.Core.Models
 {
     public sealed class Player
     {
-        public string Id { get; }
-        public string FirstName { get; }
-        public string LastName { get; }
-        public PlayerPosition Position { get; }
+        public string Id { get; set; } = string.Empty;
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public PlayerPosition Position { get; set; }
+
         public int Overall { get; set; }
         public int Age { get; set; }
         public int YearsPro { get; set; }
-        public string TeamId { get; set; }
+        public string TeamId { get; set; } = string.Empty;
+
+        public int InjuryWeeksRemaining { get; set; }
 
         public bool IsInjured => InjuryWeeksRemaining > 0;
-        public int InjuryWeeksRemaining { get; private set; }
-
         public string FullName => $"{FirstName} {LastName}";
+
+        public Player() { } // Required for deserialization
 
         public Player(
             string id,

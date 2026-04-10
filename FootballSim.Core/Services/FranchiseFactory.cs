@@ -79,8 +79,8 @@ namespace FootballSim.Core.Services
             if (team.DepthChart == null)
                 return;
 
-            var playersAtPosition = team.DepthChart.GetPlayersAtPosition(position);
-            var starters = depthChartService.GetStarters(team.DepthChart, position);
+            var playersAtPosition = team.DepthChart.GetPlayersAtPosition(position, team.Roster);
+            var starters = depthChartService.GetStarters(team.DepthChart, team.Roster, position);
 
             System.Diagnostics.Debug.WriteLine($"--- {team.Name} {position} Depth Chart ---");
 
@@ -121,52 +121,52 @@ namespace FootballSim.Core.Services
             }
 
             // Week 1
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 1, HomeTeam = ari, AwayTeam = lar });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 1, HomeTeam = sea, AwayTeam = sf });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 1, HomeTeam = dal, AwayTeam = nyg });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 1, HomeTeam = phi, AwayTeam = was });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 1, HomeTeamId = ari.Id, AwayTeamId = lar.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 1, HomeTeamId = sea.Id, AwayTeamId = sf.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 1, HomeTeamId = dal.Id, AwayTeamId = nyg.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 1, HomeTeamId = phi.Id, AwayTeamId = was.Id });
 
             // Week 2
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 2, HomeTeam = ari, AwayTeam = sea });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 2, HomeTeam = lar, AwayTeam = sf });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 2, HomeTeam = dal, AwayTeam = phi });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 2, HomeTeam = nyg, AwayTeam = was });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 2, HomeTeamId = ari.Id, AwayTeamId = sea.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 2, HomeTeamId = lar.Id, AwayTeamId = sf.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 2, HomeTeamId = dal.Id, AwayTeamId = phi.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 2, HomeTeamId = nyg.Id, AwayTeamId = was.Id });
 
             // Week 3
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 3, HomeTeam = ari, AwayTeam = sf });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 3, HomeTeam = lar, AwayTeam = sea });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 3, HomeTeam = dal, AwayTeam = was });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 3, HomeTeam = nyg, AwayTeam = phi });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 3, HomeTeamId = ari.Id, AwayTeamId = sf.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 3, HomeTeamId = lar.Id, AwayTeamId = sea.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 3, HomeTeamId = dal.Id, AwayTeamId = was.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 3, HomeTeamId = nyg.Id, AwayTeamId = phi.Id });
 
             // Week 4
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 4, HomeTeam = lar, AwayTeam = ari });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 4, HomeTeam = sf, AwayTeam = sea });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 4, HomeTeam = nyg, AwayTeam = dal });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 4, HomeTeam = was, AwayTeam = phi });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 4, HomeTeamId = lar.Id, AwayTeamId = ari.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 4, HomeTeamId = sf.Id, AwayTeamId = sea.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 4, HomeTeamId = nyg.Id, AwayTeamId = dal.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 4, HomeTeamId = was.Id, AwayTeamId = phi.Id });
 
             // Week 5
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 5, HomeTeam = sea, AwayTeam = ari });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 5, HomeTeam = sf, AwayTeam = lar });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 5, HomeTeam = phi, AwayTeam = dal });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 5, HomeTeam = was, AwayTeam = nyg });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 5, HomeTeamId = sea.Id, AwayTeamId = ari.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 5, HomeTeamId = sf.Id, AwayTeamId = lar.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 5, HomeTeamId = phi.Id, AwayTeamId = dal.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 5, HomeTeamId = was.Id, AwayTeamId = nyg.Id });
 
             // Week 6
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 6, HomeTeam = sf, AwayTeam = ari });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 6, HomeTeam = sea, AwayTeam = lar });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 6, HomeTeam = was, AwayTeam = dal });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 6, HomeTeam = phi, AwayTeam = nyg });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 6, HomeTeamId = sf.Id, AwayTeamId = ari.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 6, HomeTeamId = sea.Id, AwayTeamId = lar.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 6, HomeTeamId = was.Id, AwayTeamId = dal.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 6, HomeTeamId = phi.Id, AwayTeamId = nyg.Id });
 
             // Week 7
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 7, HomeTeam = ari, AwayTeam = dal });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 7, HomeTeam = lar, AwayTeam = nyg });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 7, HomeTeam = sea, AwayTeam = phi });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 7, HomeTeam = sf, AwayTeam = was });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 7, HomeTeamId = ari.Id, AwayTeamId = dal.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 7, HomeTeamId = lar.Id, AwayTeamId = nyg.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 7, HomeTeamId = sea.Id, AwayTeamId = phi.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 7, HomeTeamId = sf.Id, AwayTeamId = was.Id });
 
             // Week 8
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 8, HomeTeam = dal, AwayTeam = ari });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 8, HomeTeam = nyg, AwayTeam = lar });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 8, HomeTeam = phi, AwayTeam = sea });
-            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 8, HomeTeam = was, AwayTeam = sf });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 8, HomeTeamId = dal.Id, AwayTeamId = ari.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 8, HomeTeamId = nyg.Id, AwayTeamId = lar.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 8, HomeTeamId = phi.Id, AwayTeamId = sea.Id });
+            league.Schedule.Games.Add(new ScheduledGame { WeekNumber = 8, HomeTeamId = was.Id, AwayTeamId = sf.Id });
         }
     }
 }

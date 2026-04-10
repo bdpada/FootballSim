@@ -4,7 +4,7 @@
     {
         public int WeekNumber { get; set; }
 
-        public Team HomeTeam { get; set; } = null!;
-        public Team AwayTeam { get; set; } = null!;
+        public string HomeTeamId { get; set; } = string.Empty;
+        public string AwayTeamId { get; set; } = string.Empty;
     }
 }

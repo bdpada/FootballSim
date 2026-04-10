@@ -12,15 +12,30 @@ namespace FootballSim.Core.Services
             _random = random ?? new Random();
         }
 
-        public GameResult SimulateGame(ScheduledGame scheduledGame)
+        public GameResult SimulateGame(League league, ScheduledGame scheduledGame)
         {
+            var homeTeam = league.GetTeamById(scheduledGame.HomeTeamId);
+            var awayTeam = league.GetTeamById(scheduledGame.AwayTeamId);
+
+            if (homeTeam == null)
+            {
+                throw new InvalidOperationException(
+                    $"Home team '{scheduledGame.HomeTeamId}' was not found in the league.");
+            }
+
+            if (awayTeam == null)
+            {
+                throw new InvalidOperationException(
+                    $"Away team '{scheduledGame.AwayTeamId}' was not found in the league.");
+            }
+
             int homeBase = CalculateBaseScore(
-                scheduledGame.HomeTeam.OffenseRating,
-                scheduledGame.AwayTeam.DefenseRating);
+                homeTeam.OffenseRating,
+                awayTeam.DefenseRating);
 
             int awayBase = CalculateBaseScore(
-                scheduledGame.AwayTeam.OffenseRating,
-                scheduledGame.HomeTeam.DefenseRating);
+                awayTeam.OffenseRating,
+                homeTeam.DefenseRating);
 
             int homeScore = ClampScore(homeBase + _random.Next(-7, 8));
             int awayScore = ClampScore(awayBase + _random.Next(-7, 8));
@@ -37,8 +52,8 @@ namespace FootballSim.Core.Services
             return new GameResult
             {
                 WeekNumber = scheduledGame.WeekNumber,
-                HomeTeam = scheduledGame.HomeTeam,
-                AwayTeam = scheduledGame.AwayTeam,
+                HomeTeamId = homeTeam.Id,
+                AwayTeamId = awayTeam.Id,
                 HomeStats = homeStats,
                 AwayStats = awayStats
             };

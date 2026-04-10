@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System;
 using FootballSim.Core.Models;
 
 namespace FootballSim.Core.Services
@@ -29,27 +29,33 @@ namespace FootballSim.Core.Services
             return depthChart;
         }
 
-        public List<Player> GetStarters(DepthChart depthChart, PlayerPosition position)
+        public List<Player> GetStarters(
+            DepthChart depthChart,
+            IEnumerable<Player> roster,
+            PlayerPosition position)
         {
             int starterCount = DepthChartRules.GetStarterCount(position);
 
             return depthChart
-                .GetPlayersAtPosition(position)
+                .GetPlayersAtPosition(position, roster)
                 .Where(p => !p.IsInjured)
                 .Take(starterCount)
                 .ToList();
         }
 
-        public bool AutoFixPosition(DepthChart depthChart, PlayerPosition position)
+        public bool AutoFixPosition(
+            DepthChart depthChart,
+            IEnumerable<Player> roster,
+            PlayerPosition position)
         {
-            var players = depthChart.GetPlayersAtPosition(position);
+            var players = depthChart.GetPlayersAtPosition(position, roster);
 
             if (players.Count == 0)
                 return false;
 
             var reordered = players
-                .OrderBy(p => p.IsInjured)              // healthy first
-                .ThenByDescending(p => p.Overall)       // best healthy players at top
+                .OrderBy(p => p.IsInjured)
+                .ThenByDescending(p => p.Overall)
                 .ThenBy(p => p.LastName)
                 .ThenBy(p => p.FirstName)
                 .ToList();
@@ -64,13 +70,13 @@ namespace FootballSim.Core.Services
             return changed;
         }
 
-        public bool AutoFixAllPositions(DepthChart depthChart)
+        public bool AutoFixAllPositions(DepthChart depthChart, IEnumerable<Player> roster)
         {
             bool anyChanged = false;
 
             foreach (PlayerPosition position in Enum.GetValues(typeof(PlayerPosition)))
             {
-                bool changed = AutoFixPosition(depthChart, position);
+                bool changed = AutoFixPosition(depthChart, roster, position);
 
                 if (changed)
                 {
@@ -81,30 +87,40 @@ namespace FootballSim.Core.Services
             return anyChanged;
         }
 
-        public bool HasInjuredPlayersAboveHealthyStarters(DepthChart depthChart, PlayerPosition position)
+        public bool HasInjuredPlayersAboveHealthyStarters(
+            DepthChart depthChart,
+            IEnumerable<Player> roster,
+            PlayerPosition position)
         {
             int starterCount = DepthChartRules.GetStarterCount(position);
-            var players = depthChart.GetPlayersAtPosition(position);
+            var players = depthChart.GetPlayersAtPosition(position, roster);
 
             return players
                 .Take(starterCount)
                 .Any(p => p.IsInjured);
         }
 
-        public bool HasEnoughHealthyPlayers(DepthChart depthChart, PlayerPosition position)
+        public bool HasEnoughHealthyPlayers(
+            DepthChart depthChart,
+            IEnumerable<Player> roster,
+            PlayerPosition position)
         {
             int starterCount = DepthChartRules.GetStarterCount(position);
 
             int healthyCount = depthChart
-                .GetPlayersAtPosition(position)
+                .GetPlayersAtPosition(position, roster)
                 .Count(p => !p.IsInjured);
 
             return healthyCount >= starterCount;
         }
 
-        public bool MovePlayerUp(DepthChart depthChart, PlayerPosition position, string playerId)
+        public bool MovePlayerUp(
+            DepthChart depthChart,
+            IEnumerable<Player> roster,
+            PlayerPosition position,
+            string playerId)
         {
-            var players = depthChart.GetPlayersAtPosition(position);
+            var players = depthChart.GetPlayersAtPosition(position, roster);
             int index = players.FindIndex(p => p.Id == playerId);
 
             if (index <= 0)
@@ -116,9 +132,13 @@ namespace FootballSim.Core.Services
             return true;
         }
 
-        public bool MovePlayerDown(DepthChart depthChart, PlayerPosition position, string playerId)
+        public bool MovePlayerDown(
+            DepthChart depthChart,
+            IEnumerable<Player> roster,
+            PlayerPosition position,
+            string playerId)
         {
-            var players = depthChart.GetPlayersAtPosition(position);
+            var players = depthChart.GetPlayersAtPosition(position, roster);
             int index = players.FindIndex(p => p.Id == playerId);
 
             if (index < 0 || index >= players.Count - 1)

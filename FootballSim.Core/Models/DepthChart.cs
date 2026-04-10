@@ -5,28 +5,42 @@ namespace FootballSim.Core.Models
 {
     public sealed class DepthChart
     {
-        private readonly Dictionary<PlayerPosition, List<Player>> _positionGroups = new();
-
-        public IReadOnlyDictionary<PlayerPosition, List<Player>> PositionGroups => _positionGroups;
+        // Stores ordered player IDs by position
+        public Dictionary<PlayerPosition, List<string>> PositionGroups { get; set; } = new();
 
         public void SetPlayersForPosition(PlayerPosition position, IEnumerable<Player> players)
         {
-            _positionGroups[position] = players.ToList();
+            PositionGroups[position] = players
+                .Select(p => p.Id)
+                .ToList();
         }
 
-        public List<Player> GetPlayersAtPosition(PlayerPosition position)
+        public List<string> GetPlayerIdsAtPosition(PlayerPosition position)
         {
-            if (_positionGroups.TryGetValue(position, out var players))
+            if (PositionGroups.TryGetValue(position, out var playerIds))
             {
-                return players;
+                return playerIds;
             }
 
-            return new List<Player>();
+            return new List<string>();
         }
 
-        public List<Player> GetStartersAtPosition(PlayerPosition position, int starterCount)
+        public List<Player> GetPlayersAtPosition(PlayerPosition position, IEnumerable<Player> roster)
         {
-            return GetPlayersAtPosition(position)
+            var playerIds = GetPlayerIdsAtPosition(position);
+
+            return roster
+                .Where(p => playerIds.Contains(p.Id))
+                .OrderBy(p => playerIds.IndexOf(p.Id))
+                .ToList();
+        }
+
+        public List<Player> GetStartersAtPosition(
+            PlayerPosition position,
+            int starterCount,
+            IEnumerable<Player> roster)
+        {
+            return GetPlayersAtPosition(position, roster)
                 .Take(starterCount)
                 .ToList();
         }

@@ -31,10 +31,10 @@ namespace FootballSim.Core.Services
 
             foreach (var scheduledGame in scheduledGames)
             {
-                var result = _gameSimulator.SimulateGame(scheduledGame);
+                var result = _gameSimulator.SimulateGame(franchise.League, scheduledGame);
                 weekResult.Games.Add(result);
 
-                ApplyResultToRecords(result);
+                ApplyResultToRecords(franchise.League, result);
             }
 
             // Players who were already injured recover by one week
@@ -49,10 +49,22 @@ namespace FootballSim.Core.Services
             return weekResult;
         }
 
-        private void ApplyResultToRecords(GameResult result)
+        private void ApplyResultToRecords(League league, GameResult result)
         {
-            var home = result.HomeTeam;
-            var away = result.AwayTeam;
+            var home = league.GetTeamById(result.HomeTeamId);
+            var away = league.GetTeamById(result.AwayTeamId);
+
+            if (home == null)
+            {
+                throw new InvalidOperationException(
+                    $"Home team '{result.HomeTeamId}' was not found in the league.");
+            }
+
+            if (away == null)
+            {
+                throw new InvalidOperationException(
+                    $"Away team '{result.AwayTeamId}' was not found in the league.");
+            }
 
             home.Record.PointsFor += result.HomeStats.Points;
             home.Record.PointsAgainst += result.AwayStats.Points;
@@ -87,8 +99,23 @@ namespace FootballSim.Core.Services
         {
             foreach (var game in scheduledGames)
             {
-                ApplyInjuriesToTeam(game.HomeTeam);
-                ApplyInjuriesToTeam(game.AwayTeam);
+                var homeTeam = franchise.League.GetTeamById(game.HomeTeamId);
+                var awayTeam = franchise.League.GetTeamById(game.AwayTeamId);
+
+                if (homeTeam == null)
+                {
+                    throw new InvalidOperationException(
+                        $"Home team '{game.HomeTeamId}' was not found in the league.");
+                }
+
+                if (awayTeam == null)
+                {
+                    throw new InvalidOperationException(
+                        $"Away team '{game.AwayTeamId}' was not found in the league.");
+                }
+
+                ApplyInjuriesToTeam(homeTeam);
+                ApplyInjuriesToTeam(awayTeam);
             }
         }
 

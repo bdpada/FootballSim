@@ -16,18 +16,33 @@ namespace FootballSim.Core.Services
             _random = random ?? new Random();
         }
 
-        public GameResult SimulateGame(ScheduledGame scheduledGame)
+        public GameResult SimulateGame(League league, ScheduledGame scheduledGame)
         {
-            WeeklyGameplan? homeGameplan = _gameplanProvider?.Invoke(scheduledGame.HomeTeam);
-            WeeklyGameplan? awayGameplan = _gameplanProvider?.Invoke(scheduledGame.AwayTeam);
+            var homeTeam = league.GetTeamById(scheduledGame.HomeTeamId);
+            var awayTeam = league.GetTeamById(scheduledGame.AwayTeamId);
+
+            if (homeTeam == null)
+            {
+                throw new InvalidOperationException(
+                    $"Home team '{scheduledGame.HomeTeamId}' was not found in the league.");
+            }
+
+            if (awayTeam == null)
+            {
+                throw new InvalidOperationException(
+                    $"Away team '{scheduledGame.AwayTeamId}' was not found in the league.");
+            }
+
+            WeeklyGameplan? homeGameplan = _gameplanProvider?.Invoke(homeTeam);
+            WeeklyGameplan? awayGameplan = _gameplanProvider?.Invoke(awayTeam);
 
             int homeBase = CalculateBaseScore(
-                scheduledGame.HomeTeam.OffenseRating,
-                scheduledGame.AwayTeam.DefenseRating);
+                homeTeam.OffenseRating,
+                awayTeam.DefenseRating);
 
             int awayBase = CalculateBaseScore(
-                scheduledGame.AwayTeam.OffenseRating,
-                scheduledGame.HomeTeam.DefenseRating);
+                awayTeam.OffenseRating,
+                homeTeam.DefenseRating);
 
             homeBase += GetOffensePointModifier(homeGameplan?.OffenseFocus ?? OffenseFocus.Balanced);
             awayBase += GetOffensePointModifier(awayGameplan?.OffenseFocus ?? OffenseFocus.Balanced);
@@ -66,8 +81,8 @@ namespace FootballSim.Core.Services
             return new GameResult
             {
                 WeekNumber = scheduledGame.WeekNumber,
-                HomeTeam = scheduledGame.HomeTeam,
-                AwayTeam = scheduledGame.AwayTeam,
+                HomeTeamId = homeTeam.Id,
+                AwayTeamId = awayTeam.Id,
                 HomeStats = homeStats,
                 AwayStats = awayStats
             };

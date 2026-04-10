@@ -5,9 +5,9 @@ namespace FootballSim.Core.Models
 {
     public sealed class League
     {
-        public List<Team> Teams { get; } = new();
-        public LeagueSchedule Schedule { get; } = new();
-        public List<WeekResult> CompletedWeeks { get; } = new();
+        public List<Team> Teams { get; set; } = new();
+        public LeagueSchedule Schedule { get; set; } = new();
+        public List<WeekResult> CompletedWeeks { get; set; } = new();
 
         public Team? GetTeamById(string id)
             => Teams.FirstOrDefault(t => t.Id == id);

@@ -4,17 +4,19 @@
     {
         public int WeekNumber { get; set; }
 
-        public Team HomeTeam { get; set; } = null!;
-        public Team AwayTeam { get; set; } = null!;
+        public string HomeTeamId { get; set; } = string.Empty;
+        public string AwayTeamId { get; set; } = string.Empty;
 
         public TeamGameStats HomeStats { get; set; } = new();
         public TeamGameStats AwayStats { get; set; } = new();
 
-        public Team Winner
+        public string WinnerTeamId
         {
             get
             {
-                return HomeStats.Points >= AwayStats.Points ? HomeTeam : AwayTeam;
+                return HomeStats.Points >= AwayStats.Points
+                    ? HomeTeamId
+                    : AwayTeamId;
             }
         }
     }

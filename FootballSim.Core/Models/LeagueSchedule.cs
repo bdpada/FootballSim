@@ -5,7 +5,7 @@ namespace FootballSim.Core.Models
 {
     public sealed class LeagueSchedule
     {
-        public List<ScheduledGame> Games { get; } = new();
+        public List<ScheduledGame> Games { get; set; } = new();
 
         public List<ScheduledGame> GetGamesForWeek(int weekNumber)
         {

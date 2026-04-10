@@ -162,8 +162,8 @@ namespace FootballSim.WinForms
 
             foreach (PlayerPosition position in Enum.GetValues(typeof(PlayerPosition)))
             {
-                bool hasInjuredStarters = _depthChartService.HasInjuredPlayersAboveHealthyStarters(team.DepthChart, position);
-                bool hasEnoughHealthyPlayers = _depthChartService.HasEnoughHealthyPlayers(team.DepthChart, position);
+                bool hasInjuredStarters = _depthChartService.HasInjuredPlayersAboveHealthyStarters(team.DepthChart, team.Roster, position);
+                bool hasEnoughHealthyPlayers = _depthChartService.HasEnoughHealthyPlayers(team.DepthChart, team.Roster, position);
 
                 if (hasInjuredStarters)
                 {
@@ -253,22 +253,34 @@ namespace FootballSim.WinForms
 
             foreach (var game in weekResult.Games)
             {
-                sb.AppendLine($"{game.AwayTeam.Name} {game.AwayStats.Points} - {game.HomeStats.Points} {game.HomeTeam.Name}");
-                sb.AppendLine($"   {game.AwayTeam.Id}: {game.AwayStats.PassYards} pass, {game.AwayStats.RushYards} rush, {game.AwayStats.Turnovers} TO");
-                sb.AppendLine($"   {game.HomeTeam.Id}: {game.HomeStats.PassYards} pass, {game.HomeStats.RushYards} rush, {game.HomeStats.Turnovers} TO");
+                var awayTeam = franchise.League.GetTeamById(game.AwayTeamId);
+                var homeTeam = franchise.League.GetTeamById(game.HomeTeamId);
+
+                if (awayTeam == null || homeTeam == null)
+                    continue;
+
+                sb.AppendLine($"{awayTeam.Name} {game.AwayStats.Points} - {game.HomeStats.Points} {homeTeam.Name}");
+                sb.AppendLine($"   {awayTeam.Id}: {game.AwayStats.PassYards} pass, {game.AwayStats.RushYards} rush, {game.AwayStats.Turnovers} TO");
+                sb.AppendLine($"   {homeTeam.Id}: {game.HomeStats.PassYards} pass, {game.HomeStats.RushYards} rush, {game.HomeStats.Turnovers} TO");
                 sb.AppendLine();
             }
 
             var userTeamGame = weekResult.Games.FirstOrDefault(g =>
-                g.HomeTeam.Id == franchise.UserTeamId || g.AwayTeam.Id == franchise.UserTeamId);
+                g.HomeTeamId == franchise.UserTeamId || g.AwayTeamId == franchise.UserTeamId);
 
             if (userTeamGame != null)
             {
-                sb.AppendLine("Your Team Result:");
-                sb.AppendLine($"{userTeamGame.AwayTeam.Name} {userTeamGame.AwayStats.Points} - {userTeamGame.HomeStats.Points} {userTeamGame.HomeTeam.Name}");
+                var userAwayTeam = franchise.League.GetTeamById(userTeamGame.AwayTeamId);
+                var userHomeTeam = franchise.League.GetTeamById(userTeamGame.HomeTeamId);
+
+                if (userAwayTeam != null && userHomeTeam != null)
+                {
+                    sb.AppendLine("Your Team Result:");
+                    sb.AppendLine($"{userAwayTeam.Name} {userTeamGame.AwayStats.Points} - {userTeamGame.HomeStats.Points} {userHomeTeam.Name}");
+                    sb.AppendLine();
+                }
             }
 
-            sb.AppendLine();
             sb.AppendLine(BuildUserTeamInjurySummary());
 
             txtResults.Text = sb.ToString();

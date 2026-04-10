@@ -67,7 +67,7 @@ namespace FootballSim.Core.Services
             if (team.DepthChart == null)
                 return 0;
 
-            List<Player> starters = _depthChartService.GetStarters(team.DepthChart, position);
+            List<Player> starters = _depthChartService.GetStarters(team.DepthChart, team.Roster, position);
 
             if (starters.Count == 0)
                 return 0;

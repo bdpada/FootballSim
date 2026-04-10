@@ -4,6 +4,6 @@ namespace FootballSim.Core.Services
 {
     public interface IGameSimulator
     {
-        GameResult SimulateGame(ScheduledGame scheduledGame);
+        GameResult SimulateGame(League league, ScheduledGame scheduledGame);
     }
 }

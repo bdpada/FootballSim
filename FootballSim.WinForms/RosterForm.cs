@@ -50,8 +50,8 @@ namespace FootballSim.WinForms
             if (cmbPositions.SelectedItem is not PlayerPosition position)
                 return;
 
-            var players = team.DepthChart.GetPlayersAtPosition(position);
-            var starters = _depthChartService.GetStarters(team.DepthChart, position);
+            var players = team.DepthChart.GetPlayersAtPosition(position, team.Roster);
+            var starters = _depthChartService.GetStarters(team.DepthChart, team.Roster, position);
             var starterIds = starters.Select(p => p.Id).ToHashSet();
 
             foreach (var player in players)
@@ -103,8 +103,8 @@ namespace FootballSim.WinForms
                 return;
 
             bool moved = up
-                ? _depthChartService.MovePlayerUp(team.DepthChart, position, selectedItem.Player.Id)
-                : _depthChartService.MovePlayerDown(team.DepthChart, position, selectedItem.Player.Id);
+                ? _depthChartService.MovePlayerUp(team.DepthChart, team.Roster, position, selectedItem.Player.Id)
+                : _depthChartService.MovePlayerDown(team.DepthChart, team.Roster, position, selectedItem.Player.Id);
 
             if (!moved)
                 return;
@@ -136,7 +136,7 @@ namespace FootballSim.WinForms
             if (cmbPositions.SelectedItem is not PlayerPosition position)
                 return;
 
-            bool changed = _depthChartService.AutoFixPosition(team.DepthChart, position);
+            bool changed = _depthChartService.AutoFixPosition(team.DepthChart, team.Roster, position);
 
             if (changed)
             {
@@ -156,7 +156,7 @@ namespace FootballSim.WinForms
             if (team?.DepthChart == null)
                 return;
 
-            bool changed = _depthChartService.AutoFixAllPositions(team.DepthChart);
+            bool changed = _depthChartService.AutoFixAllPositions(team.DepthChart, team.Roster);
 
             if (changed)
             {
