@@ -1,9 +1,12 @@
+using FootballSim.Persistence.Services;
 using FootballSim.WinForms.State;
 
 namespace FootballSim.WinForms
 {
     public partial class MainMenuForm : Form
     {
+        private readonly ISaveService _saveService = new JsonSaveService();
+
         public MainMenuForm()
         {
             InitializeComponent();
@@ -27,7 +30,26 @@ namespace FootballSim.WinForms
 
         private void btnLoadGame_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Load Game not implemented yet.");
+            using var loadGameForm = new LoadGameForm();
+            var result = loadGameForm.ShowDialog();
+
+            if (result != DialogResult.OK || string.IsNullOrWhiteSpace(loadGameForm.SelectedSaveName))
+                return;
+
+            try
+            {
+                var franchise = _saveService.Load(loadGameForm.SelectedSaveName);
+
+                FranchiseContext.Set(franchise);
+
+                var hub = new FranchiseHubForm();
+                hub.Show();
+                this.Hide();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to load save:\n{ex.Message}");
+            }
         }
 
         private void btnExit_Click(object sender, EventArgs e)

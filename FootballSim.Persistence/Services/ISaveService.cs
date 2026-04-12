@@ -10,5 +10,6 @@ namespace FootballSim.Persistence.Services
         FranchiseState Load(string saveName);
         List<SaveFileInfo> GetAvailableSaves();
         bool SaveExists(string saveName);
+        void Delete(string saveName);
     }
 }

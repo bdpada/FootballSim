@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FootballSim.Core\FootballSim.Core.csproj" />
+    <ProjectReference Include="..\FootballSim.Persistence\FootballSim.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

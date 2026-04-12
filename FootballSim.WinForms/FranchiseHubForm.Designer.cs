@@ -56,6 +56,7 @@ namespace FootballSim.WinForms
             contentLayout = new TableLayoutPanel();
             leftColumnLayout = new TableLayoutPanel();
             rightColumnLayout = new TableLayoutPanel();
+            btnSave = new Button();
             pnlGameplan.SuspendLayout();
             mainLayout.SuspendLayout();
             headerLayout.SuspendLayout();
@@ -69,10 +70,10 @@ namespace FootballSim.WinForms
             // 
             lblUserTeam.AutoSize = true;
             lblUserTeam.Dock = DockStyle.Fill;
-            lblUserTeam.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblUserTeam.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             lblUserTeam.Location = new Point(3, 0);
             lblUserTeam.Name = "lblUserTeam";
-            lblUserTeam.Size = new Size(514, 32);
+            lblUserTeam.Size = new Size(514, 29);
             lblUserTeam.TabIndex = 0;
             lblUserTeam.Text = "User Team: (None)";
             lblUserTeam.TextAlign = ContentAlignment.MiddleLeft;
@@ -81,10 +82,10 @@ namespace FootballSim.WinForms
             // 
             lblWeek.AutoSize = true;
             lblWeek.Dock = DockStyle.Fill;
-            lblWeek.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblWeek.Location = new Point(3, 32);
+            lblWeek.Font = new Font("Segoe UI", 10F);
+            lblWeek.Location = new Point(3, 29);
             lblWeek.Name = "lblWeek";
-            lblWeek.Size = new Size(514, 28);
+            lblWeek.Size = new Size(514, 25);
             lblWeek.TabIndex = 1;
             lblWeek.Text = "Week: 1";
             lblWeek.TextAlign = ContentAlignment.MiddleLeft;
@@ -93,10 +94,10 @@ namespace FootballSim.WinForms
             // 
             lblOffOvr.AutoSize = true;
             lblOffOvr.Dock = DockStyle.Fill;
-            lblOffOvr.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            lblOffOvr.Font = new Font("Segoe UI", 10F);
             lblOffOvr.Location = new Point(523, 0);
             lblOffOvr.Name = "lblOffOvr";
-            lblOffOvr.Size = new Size(254, 32);
+            lblOffOvr.Size = new Size(254, 29);
             lblOffOvr.TabIndex = 2;
             lblOffOvr.Text = "Off OVR: 0";
             lblOffOvr.TextAlign = ContentAlignment.MiddleRight;
@@ -105,10 +106,10 @@ namespace FootballSim.WinForms
             // 
             lblDefOvr.AutoSize = true;
             lblDefOvr.Dock = DockStyle.Fill;
-            lblDefOvr.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblDefOvr.Location = new Point(523, 32);
+            lblDefOvr.Font = new Font("Segoe UI", 10F);
+            lblDefOvr.Location = new Point(523, 29);
             lblDefOvr.Name = "lblDefOvr";
-            lblDefOvr.Size = new Size(254, 28);
+            lblDefOvr.Size = new Size(254, 25);
             lblDefOvr.TabIndex = 3;
             lblDefOvr.Text = "Def OVR: 0";
             lblDefOvr.TextAlign = ContentAlignment.MiddleRight;
@@ -117,10 +118,11 @@ namespace FootballSim.WinForms
             // 
             btnSimWeek.AutoSize = true;
             btnSimWeek.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            btnSimWeek.Location = new Point(0, 0);
             btnSimWeek.Margin = new Padding(0, 0, 10, 0);
             btnSimWeek.Name = "btnSimWeek";
             btnSimWeek.Padding = new Padding(12, 6, 12, 6);
-            btnSimWeek.Size = new Size(96, 37);
+            btnSimWeek.Size = new Size(93, 37);
             btnSimWeek.TabIndex = 4;
             btnSimWeek.Text = "Sim Week";
             btnSimWeek.UseVisualStyleBackColor = true;
@@ -130,10 +132,11 @@ namespace FootballSim.WinForms
             // 
             btnViewRoster.AutoSize = true;
             btnViewRoster.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            btnViewRoster.Location = new Point(103, 0);
             btnViewRoster.Margin = new Padding(0, 0, 10, 0);
             btnViewRoster.Name = "btnViewRoster";
             btnViewRoster.Padding = new Padding(12, 6, 12, 6);
-            btnViewRoster.Size = new Size(108, 37);
+            btnViewRoster.Size = new Size(102, 37);
             btnViewRoster.TabIndex = 5;
             btnViewRoster.Text = "View Roster";
             btnViewRoster.UseVisualStyleBackColor = true;
@@ -143,10 +146,11 @@ namespace FootballSim.WinForms
             // 
             btnBackToMenu.AutoSize = true;
             btnBackToMenu.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            btnBackToMenu.Location = new Point(215, 0);
             btnBackToMenu.Margin = new Padding(0);
             btnBackToMenu.Name = "btnBackToMenu";
             btnBackToMenu.Padding = new Padding(12, 6, 12, 6);
-            btnBackToMenu.Size = new Size(122, 37);
+            btnBackToMenu.Size = new Size(114, 37);
             btnBackToMenu.TabIndex = 6;
             btnBackToMenu.Text = "Back to Menu";
             btnBackToMenu.UseVisualStyleBackColor = true;
@@ -160,7 +164,7 @@ namespace FootballSim.WinForms
             txtResults.Name = "txtResults";
             txtResults.ReadOnly = true;
             txtResults.ScrollBars = ScrollBars.Vertical;
-            txtResults.Size = new Size(460, 473);
+            txtResults.Size = new Size(456, 359);
             txtResults.TabIndex = 7;
             // 
             // txtStandings
@@ -171,28 +175,28 @@ namespace FootballSim.WinForms
             txtStandings.Name = "txtStandings";
             txtStandings.ReadOnly = true;
             txtStandings.ScrollBars = ScrollBars.Vertical;
-            txtStandings.Size = new Size(304, 149);
+            txtStandings.Size = new Size(300, 87);
             txtStandings.TabIndex = 8;
             // 
             // txtTeamStatus
             // 
             txtTeamStatus.Dock = DockStyle.Fill;
-            txtTeamStatus.Location = new Point(3, 338);
+            txtTeamStatus.Location = new Point(3, 276);
             txtTeamStatus.Multiline = true;
             txtTeamStatus.Name = "txtTeamStatus";
             txtTeamStatus.ReadOnly = true;
             txtTeamStatus.ScrollBars = ScrollBars.Vertical;
-            txtTeamStatus.Size = new Size(304, 166);
+            txtTeamStatus.Size = new Size(300, 114);
             txtTeamStatus.TabIndex = 9;
             // 
             // lblResultsHeader
             // 
             lblResultsHeader.AutoSize = true;
             lblResultsHeader.Dock = DockStyle.Fill;
-            lblResultsHeader.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            lblResultsHeader.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             lblResultsHeader.Location = new Point(3, 0);
             lblResultsHeader.Name = "lblResultsHeader";
-            lblResultsHeader.Size = new Size(460, 28);
+            lblResultsHeader.Size = new Size(456, 28);
             lblResultsHeader.TabIndex = 10;
             lblResultsHeader.Text = "Weekly Results";
             lblResultsHeader.TextAlign = ContentAlignment.MiddleLeft;
@@ -201,10 +205,10 @@ namespace FootballSim.WinForms
             // 
             lblStandingsHeader.AutoSize = true;
             lblStandingsHeader.Dock = DockStyle.Fill;
-            lblStandingsHeader.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            lblStandingsHeader.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             lblStandingsHeader.Location = new Point(3, 0);
             lblStandingsHeader.Name = "lblStandingsHeader";
-            lblStandingsHeader.Size = new Size(304, 28);
+            lblStandingsHeader.Size = new Size(300, 28);
             lblStandingsHeader.TabIndex = 11;
             lblStandingsHeader.Text = "Standings";
             lblStandingsHeader.TextAlign = ContentAlignment.MiddleLeft;
@@ -213,10 +217,10 @@ namespace FootballSim.WinForms
             // 
             lblGameplanHeader.AutoSize = true;
             lblGameplanHeader.Dock = DockStyle.Fill;
-            lblGameplanHeader.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            lblGameplanHeader.Location = new Point(3, 183);
+            lblGameplanHeader.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblGameplanHeader.Location = new Point(3, 121);
             lblGameplanHeader.Name = "lblGameplanHeader";
-            lblGameplanHeader.Size = new Size(304, 28);
+            lblGameplanHeader.Size = new Size(300, 28);
             lblGameplanHeader.TabIndex = 12;
             lblGameplanHeader.Text = "Weekly Gameplan";
             lblGameplanHeader.TextAlign = ContentAlignment.MiddleLeft;
@@ -225,10 +229,10 @@ namespace FootballSim.WinForms
             // 
             lblTeamStatusHeader.AutoSize = true;
             lblTeamStatusHeader.Dock = DockStyle.Fill;
-            lblTeamStatusHeader.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
-            lblTeamStatusHeader.Location = new Point(3, 307);
+            lblTeamStatusHeader.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblTeamStatusHeader.Location = new Point(3, 245);
             lblTeamStatusHeader.Name = "lblTeamStatusHeader";
-            lblTeamStatusHeader.Size = new Size(304, 28);
+            lblTeamStatusHeader.Size = new Size(300, 28);
             lblTeamStatusHeader.TabIndex = 13;
             lblTeamStatusHeader.Text = "Team Status";
             lblTeamStatusHeader.TextAlign = ContentAlignment.MiddleLeft;
@@ -239,7 +243,7 @@ namespace FootballSim.WinForms
             lblOffenseFocus.Dock = DockStyle.Fill;
             lblOffenseFocus.Location = new Point(3, 0);
             lblOffenseFocus.Name = "lblOffenseFocus";
-            lblOffenseFocus.Size = new Size(102, 46);
+            lblOffenseFocus.Size = new Size(100, 45);
             lblOffenseFocus.TabIndex = 0;
             lblOffenseFocus.Text = "Offense Focus";
             lblOffenseFocus.TextAlign = ContentAlignment.MiddleLeft;
@@ -249,10 +253,10 @@ namespace FootballSim.WinForms
             cmbOffenseFocus.Dock = DockStyle.Fill;
             cmbOffenseFocus.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbOffenseFocus.FormattingEnabled = true;
-            cmbOffenseFocus.Location = new Point(111, 11);
+            cmbOffenseFocus.Location = new Point(109, 11);
             cmbOffenseFocus.Margin = new Padding(3, 11, 3, 11);
             cmbOffenseFocus.Name = "cmbOffenseFocus";
-            cmbOffenseFocus.Size = new Size(190, 23);
+            cmbOffenseFocus.Size = new Size(188, 23);
             cmbOffenseFocus.TabIndex = 1;
             cmbOffenseFocus.SelectedIndexChanged += cmbOffenseFocus_SelectedIndexChanged;
             // 
@@ -260,9 +264,9 @@ namespace FootballSim.WinForms
             // 
             lblDefenseFocus.AutoSize = true;
             lblDefenseFocus.Dock = DockStyle.Fill;
-            lblDefenseFocus.Location = new Point(3, 46);
+            lblDefenseFocus.Location = new Point(3, 45);
             lblDefenseFocus.Name = "lblDefenseFocus";
-            lblDefenseFocus.Size = new Size(102, 46);
+            lblDefenseFocus.Size = new Size(100, 45);
             lblDefenseFocus.TabIndex = 2;
             lblDefenseFocus.Text = "Defense Focus";
             lblDefenseFocus.TextAlign = ContentAlignment.MiddleLeft;
@@ -272,10 +276,10 @@ namespace FootballSim.WinForms
             cmbDefenseFocus.Dock = DockStyle.Fill;
             cmbDefenseFocus.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbDefenseFocus.FormattingEnabled = true;
-            cmbDefenseFocus.Location = new Point(111, 57);
+            cmbDefenseFocus.Location = new Point(109, 56);
             cmbDefenseFocus.Margin = new Padding(3, 11, 3, 11);
             cmbDefenseFocus.Name = "cmbDefenseFocus";
-            cmbDefenseFocus.Size = new Size(190, 23);
+            cmbDefenseFocus.Size = new Size(188, 23);
             cmbDefenseFocus.TabIndex = 3;
             cmbDefenseFocus.SelectedIndexChanged += cmbDefenseFocus_SelectedIndexChanged;
             // 
@@ -289,12 +293,12 @@ namespace FootballSim.WinForms
             pnlGameplan.Controls.Add(lblDefenseFocus, 0, 1);
             pnlGameplan.Controls.Add(cmbDefenseFocus, 1, 1);
             pnlGameplan.Dock = DockStyle.Fill;
-            pnlGameplan.Location = new Point(3, 214);
+            pnlGameplan.Location = new Point(3, 152);
             pnlGameplan.Name = "pnlGameplan";
             pnlGameplan.RowCount = 2;
             pnlGameplan.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             pnlGameplan.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            pnlGameplan.Size = new Size(304, 90);
+            pnlGameplan.Size = new Size(300, 90);
             pnlGameplan.TabIndex = 14;
             // 
             // mainLayout
@@ -337,6 +341,7 @@ namespace FootballSim.WinForms
             actionLayout.Controls.Add(btnSimWeek);
             actionLayout.Controls.Add(btnViewRoster);
             actionLayout.Controls.Add(btnBackToMenu);
+            actionLayout.Controls.Add(btnSave);
             actionLayout.Dock = DockStyle.Fill;
             actionLayout.Location = new Point(3, 63);
             actionLayout.Name = "actionLayout";
@@ -370,7 +375,7 @@ namespace FootballSim.WinForms
             leftColumnLayout.RowCount = 2;
             leftColumnLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
             leftColumnLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            leftColumnLayout.Size = new Size(466, 393);
+            leftColumnLayout.Size = new Size(462, 393);
             leftColumnLayout.TabIndex = 0;
             // 
             // rightColumnLayout
@@ -384,7 +389,7 @@ namespace FootballSim.WinForms
             rightColumnLayout.Controls.Add(lblTeamStatusHeader, 0, 4);
             rightColumnLayout.Controls.Add(txtTeamStatus, 0, 5);
             rightColumnLayout.Dock = DockStyle.Fill;
-            rightColumnLayout.Location = new Point(475, 3);
+            rightColumnLayout.Location = new Point(471, 3);
             rightColumnLayout.Name = "rightColumnLayout";
             rightColumnLayout.RowCount = 6;
             rightColumnLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
@@ -393,8 +398,22 @@ namespace FootballSim.WinForms
             rightColumnLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 96F));
             rightColumnLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
             rightColumnLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 56F));
-            rightColumnLayout.Size = new Size(302, 393);
+            rightColumnLayout.Size = new Size(306, 393);
             rightColumnLayout.TabIndex = 1;
+            // 
+            // btnSave
+            // 
+            btnSave.AutoSize = true;
+            btnSave.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            btnSave.Location = new Point(329, 0);
+            btnSave.Margin = new Padding(0);
+            btnSave.Name = "btnSave";
+            btnSave.Padding = new Padding(12, 6, 12, 6);
+            btnSave.Size = new Size(99, 37);
+            btnSave.TabIndex = 7;
+            btnSave.Text = "Save Game";
+            btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
             // 
             // FranchiseHubForm
             // 
@@ -449,5 +468,6 @@ namespace FootballSim.WinForms
         private TableLayoutPanel contentLayout;
         private TableLayoutPanel leftColumnLayout;
         private TableLayoutPanel rightColumnLayout;
+        private Button btnSave;
     }
 }

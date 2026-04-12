@@ -1,6 +1,7 @@
 ﻿using FootballSim.Core.Models;
 using FootballSim.Core.Services;
 using FootballSim.WinForms.State;
+using FootballSim.Persistence.Services;
 using System;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ namespace FootballSim.WinForms
         private bool _isLoadingGameplanControls = false;
         private readonly WeekSimulationService _weekSimulationService;
         private readonly DepthChartService _depthChartService = new();
+        private readonly ISaveService _saveService = new JsonSaveService();
 
         private void LoadGameplanControls()
         {
@@ -294,6 +296,45 @@ namespace FootballSim.WinForms
             rosterForm.ShowDialog();
 
             RefreshView();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (FranchiseContext.Current == null)
+            {
+                MessageBox.Show("No franchise loaded.");
+                return;
+            }
+
+            string saveName = Microsoft.VisualBasic.Interaction.InputBox(
+                "Enter a name for your save:",
+                "Save Game",
+                "MySave");
+
+            if (string.IsNullOrWhiteSpace(saveName))
+                return;
+
+            try
+            {
+                if (_saveService.SaveExists(saveName))
+                {
+                    var overwriteResult = MessageBox.Show(
+                        $"A save named '{saveName}' already exists. Overwrite it?",
+                        "Confirm Overwrite",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+
+                    if (overwriteResult != DialogResult.Yes)
+                        return;
+                }
+
+                _saveService.Save(saveName, FranchiseContext.Current);
+                MessageBox.Show("Game saved successfully!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to save game:\n{ex.Message}");
+            }
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)

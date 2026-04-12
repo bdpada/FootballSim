@@ -43,6 +43,23 @@ namespace FootballSim.Persistence.Services
             File.WriteAllText(fullPath, json);
         }
 
+        public void Delete(string saveName)
+        {
+            if (string.IsNullOrWhiteSpace(saveName))
+            {
+                throw new ArgumentException("Save name cannot be empty.", nameof(saveName));
+            }
+
+            string fullPath = GetSaveFilePath(saveName);
+
+            if (!File.Exists(fullPath))
+            {
+                throw new FileNotFoundException("Save file was not found.", fullPath);
+            }
+
+            File.Delete(fullPath);
+        }
+
         public FranchiseState Load(string saveName)
         {
             if (string.IsNullOrWhiteSpace(saveName))
