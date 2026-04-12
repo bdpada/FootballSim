@@ -2,7 +2,6 @@
 using FootballSim.Persistence.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace FootballSim.WinForms
@@ -27,26 +26,27 @@ namespace FootballSim.WinForms
 
             foreach (var save in saves)
             {
-                lstSaves.Items.Add(new SaveListItem(
-                    save.FileName,
-                    $"{save.FileName}  |  {save.LastModifiedUtc.ToLocalTime():g}"));
+                string weekText = save.CurrentWeek > 0 ? $"Week {save.CurrentWeek}" : "Week ?";
+                string displayText =
+                    $"{save.FileName} | {save.UserTeamName} | {weekText} | {save.LastModifiedUtc.ToLocalTime():g}";
+
+                lstSaves.Items.Add(new SaveListItem(save.FileName, displayText));
             }
 
-            btnLoad.Enabled = lstSaves.Items.Count > 0;
-            btnDelete.Enabled = lstSaves.Items.Count > 0;
+            bool hasSaves = lstSaves.Items.Count > 0;
+
+            btnLoad.Enabled = hasSaves;
+            btnDelete.Enabled = hasSaves;
+
+            if (hasSaves)
+            {
+                lstSaves.SelectedIndex = 0;
+            }
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            if (lstSaves.SelectedItem is not SaveListItem item)
-            {
-                MessageBox.Show("Please select a save to load.");
-                return;
-            }
-
-            SelectedSaveName = item.SaveName;
-            DialogResult = DialogResult.OK;
-            Close();
+            LoadSelectedSave();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -70,6 +70,11 @@ namespace FootballSim.WinForms
             {
                 _saveService.Delete(item.SaveName);
                 RefreshSaveList();
+
+                if (lstSaves.Items.Count == 0)
+                {
+                    MessageBox.Show("There are no save files remaining.");
+                }
             }
             catch (Exception ex)
             {
@@ -80,6 +85,27 @@ namespace FootballSim.WinForms
         private void btnCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
+            Close();
+        }
+
+        private void lstSaves_DoubleClick(object sender, EventArgs e)
+        {
+            if (lstSaves.SelectedItem is SaveListItem)
+            {
+                LoadSelectedSave();
+            }
+        }
+
+        private void LoadSelectedSave()
+        {
+            if (lstSaves.SelectedItem is not SaveListItem item)
+            {
+                MessageBox.Show("Please select a save to load.");
+                return;
+            }
+
+            SelectedSaveName = item.SaveName;
+            DialogResult = DialogResult.OK;
             Close();
         }
 

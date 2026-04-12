@@ -7,5 +7,8 @@ namespace FootballSim.Persistence.Models
         public string FileName { get; set; } = string.Empty;
         public string FullPath { get; set; } = string.Empty;
         public DateTime LastModifiedUtc { get; set; }
+
+        public string UserTeamName { get; set; } = string.Empty;
+        public int CurrentWeek { get; set; }
     }
 }

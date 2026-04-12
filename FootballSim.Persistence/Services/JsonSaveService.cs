@@ -92,14 +92,8 @@ namespace FootballSim.Persistence.Services
 
             return Directory
                 .GetFiles(_saveFolderPath, "*.json", SearchOption.TopDirectoryOnly)
-                .Select(path => new FileInfo(path))
-                .OrderByDescending(file => file.LastWriteTimeUtc)
-                .Select(file => new SaveFileInfo
-                {
-                    FileName = Path.GetFileNameWithoutExtension(file.Name),
-                    FullPath = file.FullName,
-                    LastModifiedUtc = file.LastWriteTimeUtc
-                })
+                .Select(path => BuildSaveFileInfo(path))
+                .OrderByDescending(save => save.LastModifiedUtc)
                 .ToList();
         }
 
@@ -128,6 +122,39 @@ namespace FootballSim.Persistence.Services
         private static string GetDefaultSaveFolderPath()
         {
             return Path.Combine(AppContext.BaseDirectory, "Saves");
+        }
+
+        private SaveFileInfo BuildSaveFileInfo(string path)
+        {
+            var file = new FileInfo(path);
+
+            var info = new SaveFileInfo
+            {
+                FileName = Path.GetFileNameWithoutExtension(file.Name),
+                FullPath = file.FullName,
+                LastModifiedUtc = file.LastWriteTimeUtc,
+                UserTeamName = "Unknown Team",
+                CurrentWeek = 0
+            };
+
+            try
+            {
+                string json = File.ReadAllText(path);
+                FranchiseState? franchise = JsonSerializer.Deserialize<FranchiseState>(json, _jsonOptions);
+
+                if (franchise != null)
+                {
+                    info.CurrentWeek = franchise.CurrentWeek;
+                    info.UserTeamName = franchise.UserTeam?.Name ?? franchise.UserTeamId;
+                }
+            }
+            catch
+            {
+                info.UserTeamName = "Unreadable Save";
+                info.CurrentWeek = 0;
+            }
+
+            return info;
         }
     }
 }

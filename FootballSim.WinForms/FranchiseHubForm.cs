@@ -306,13 +306,13 @@ namespace FootballSim.WinForms
                 return;
             }
 
-            string saveName = Microsoft.VisualBasic.Interaction.InputBox(
-                "Enter a name for your save:",
-                "Save Game",
-                "MySave");
+            using var saveGameForm = new SaveGameForm();
+            var result = saveGameForm.ShowDialog();
 
-            if (string.IsNullOrWhiteSpace(saveName))
+            if (result != DialogResult.OK || string.IsNullOrWhiteSpace(saveGameForm.SelectedSaveName))
                 return;
+
+            string saveName = saveGameForm.SelectedSaveName;
 
             try
             {

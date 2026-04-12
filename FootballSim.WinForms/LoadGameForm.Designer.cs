@@ -59,6 +59,7 @@
             lstSaves.Name = "lstSaves";
             lstSaves.Size = new Size(460, 244);
             lstSaves.TabIndex = 1;
+            lstSaves.DoubleClick += lstSaves_DoubleClick;
             // 
             // btnLoad
             // 
