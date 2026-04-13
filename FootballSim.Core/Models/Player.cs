@@ -9,10 +9,28 @@ namespace FootballSim.Core.Models
         public string LastName { get; set; } = string.Empty;
         public PlayerPosition Position { get; set; }
 
+        // Calculated from attributes using a position-based formula.
         public int Overall { get; set; }
+
         public int Age { get; set; }
         public int YearsPro { get; set; }
         public string TeamId { get; set; } = string.Empty;
+        public QualityTier Tier { get; set; }
+
+        // Shared attribute pool
+        public int Speed { get; set; }
+        public int Strength { get; set; }
+        public int Awareness { get; set; }
+        public int Stamina { get; set; }
+        public int Durability { get; set; }
+        public int ThrowAccuracy { get; set; }
+        public int ThrowPower { get; set; }
+        public int Catching { get; set; }
+        public int RouteRunning { get; set; }
+        public int Blocking { get; set; }
+        public int Tackling { get; set; }
+        public int Coverage { get; set; }
+        public int Kicking { get; set; }
 
         public int InjuryWeeksRemaining { get; set; }
 
@@ -26,7 +44,6 @@ namespace FootballSim.Core.Models
             string firstName,
             string lastName,
             PlayerPosition position,
-            int overall,
             int age,
             int yearsPro,
             string teamId)
@@ -35,7 +52,6 @@ namespace FootballSim.Core.Models
             FirstName = firstName;
             LastName = lastName;
             Position = position;
-            Overall = overall;
             Age = age;
             YearsPro = yearsPro;
             TeamId = teamId;
