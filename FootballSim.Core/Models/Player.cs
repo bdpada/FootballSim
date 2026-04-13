@@ -18,18 +18,27 @@ namespace FootballSim.Core.Models
         public QualityTier Tier { get; set; }
 
         // Shared attribute pool
+        // Physical
         public int Speed { get; set; }
         public int Strength { get; set; }
+
+        // Mental / endurance
         public int Awareness { get; set; }
         public int Stamina { get; set; }
         public int Durability { get; set; }
+
+        // Offensive skill
         public int ThrowAccuracy { get; set; }
         public int ThrowPower { get; set; }
         public int Catching { get; set; }
         public int RouteRunning { get; set; }
         public int Blocking { get; set; }
+
+        // Defensive skill
         public int Tackling { get; set; }
         public int Coverage { get; set; }
+
+        // Special teams
         public int Kicking { get; set; }
 
         public int InjuryWeeksRemaining { get; set; }

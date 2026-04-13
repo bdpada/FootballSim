@@ -170,6 +170,15 @@ namespace FootballSim.WinForms
             }
         }
 
+        private void lstPlayers_DoubleClick(object sender, EventArgs e)
+        {
+            if (lstPlayers.SelectedItem is not PlayerListItem selectedItem)
+                return;
+
+            using var form = new PlayerDetailsForm(selectedItem.Player);
+            form.ShowDialog();
+        }
+
         private void btnClose_Click(object sender, EventArgs e)
         {
             Close();

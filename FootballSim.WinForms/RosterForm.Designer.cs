@@ -77,6 +77,7 @@
             this.lstPlayers.Name = "lstPlayers";
             this.lstPlayers.Size = new System.Drawing.Size(520, 259);
             this.lstPlayers.TabIndex = 3;
+            this.lstPlayers.DoubleClick += new System.EventHandler(this.lstPlayers_DoubleClick);
             // 
             // btnMoveUp
             // 
