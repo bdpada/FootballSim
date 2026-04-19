@@ -73,6 +73,7 @@
             lstFreeAgents.Size = new Size(540, 274);
             lstFreeAgents.TabIndex = 4;
             lstFreeAgents.SelectedIndexChanged += lstFreeAgents_SelectedIndexChanged;
+            lstFreeAgents.DoubleClick += lstFreeAgents_DoubleClick;
             // 
             // btnSign
             // 

@@ -1,6 +1,7 @@
 ﻿using FootballSim.Core.Models;
 using FootballSim.Core.Services;
 using FootballSim.WinForms.State;
+using FootballSim.WinForms.Helpers;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -177,8 +178,7 @@ namespace FootballSim.WinForms
             if (lstPlayers.SelectedItem is not PlayerListItem selectedItem)
                 return;
 
-            using var form = new PlayerDetailsForm(selectedItem.Player);
-            form.ShowDialog();
+            PlayerFormHelper.ShowPlayerDetails(selectedItem.Player);
         }
 
         private void btnCutPlayer_Click(object sender, EventArgs e)

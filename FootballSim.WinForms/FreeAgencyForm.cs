@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using FootballSim.Core.Models;
 using FootballSim.Core.Services;
 using FootballSim.WinForms.State;
+using FootballSim.WinForms.Helpers;
 
 namespace FootballSim.WinForms
 {
@@ -118,6 +119,14 @@ namespace FootballSim.WinForms
             MessageBox.Show(message);
 
             RefreshFreeAgentList();
+        }
+
+        private void lstFreeAgents_DoubleClick(object sender, EventArgs e)
+        {
+            if (lstFreeAgents.SelectedItem is not Player selectedPlayer)
+                return;
+
+            PlayerFormHelper.ShowPlayerDetails(selectedPlayer);
         }
 
         private void btnClose_Click(object sender, EventArgs e)
