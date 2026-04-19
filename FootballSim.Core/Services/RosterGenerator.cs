@@ -27,6 +27,12 @@ namespace FootballSim.Core.Services
             AddPlayers(team, PlayerPosition.K, 1);
         }
 
+        public Player GenerateFreeAgentPlayer()
+        {
+            var position = GetRandomFreeAgentPosition();
+            return _playerGenerator.CreatePlayer(position, string.Empty);
+        }
+
         private void AddPlayers(Team team, PlayerPosition position, int count)
         {
             for (int i = 0; i < count; i++)
@@ -34,6 +40,29 @@ namespace FootballSim.Core.Services
                 var player = _playerGenerator.CreatePlayer(position, team.Id);
                 team.Roster.Add(player);
             }
+        }
+
+        private PlayerPosition GetRandomFreeAgentPosition()
+        {
+            PlayerPosition[] positions =
+            {
+                PlayerPosition.QB,
+                PlayerPosition.RB,
+                PlayerPosition.WR,
+                PlayerPosition.TE,
+                PlayerPosition.C,
+                PlayerPosition.G,
+                PlayerPosition.T,
+                PlayerPosition.DE,
+                PlayerPosition.DT,
+                PlayerPosition.ILB,
+                PlayerPosition.OLB,
+                PlayerPosition.CB,
+                PlayerPosition.S,
+                PlayerPosition.K
+            };
+
+            return positions[Random.Shared.Next(positions.Length)];
         }
     }
 }

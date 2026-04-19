@@ -11,6 +11,7 @@ namespace FootballSim.WinForms
     {
         private readonly DepthChartService _depthChartService = new();
         private readonly TeamRatingCalculator _teamRatingCalculator = new();
+        private readonly TransactionService _transactionService = new();
 
         public RosterForm()
         {
@@ -35,6 +36,7 @@ namespace FootballSim.WinForms
 
             var team = FranchiseContext.Current.UserTeam;
             lblTeamName.Text = $"Roster - {team.Name}";
+            lblRosterSize.Text = $"Roster: {team.Roster.Count}/{TransactionService.MaxRosterSize}";
 
             RefreshPlayerList();
         }
@@ -177,6 +179,46 @@ namespace FootballSim.WinForms
 
             using var form = new PlayerDetailsForm(selectedItem.Player);
             form.ShowDialog();
+        }
+
+        private void btnCutPlayer_Click(object sender, EventArgs e)
+        {
+            var franchise = FranchiseContext.Current;
+            var team = franchise?.UserTeam;
+
+            if (team == null)
+            {
+                MessageBox.Show("No team loaded.");
+                return;
+            }
+
+            if (lstPlayers.SelectedItem is not PlayerListItem selectedItem)
+            {
+                MessageBox.Show("Select a player to cut.");
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                $"Are you sure you want to release {selectedItem.Player.FullName}?",
+                "Confirm Cut",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (confirm != DialogResult.Yes)
+                return;
+
+            bool success = _transactionService.CutPlayer(
+                franchise.League,
+                team,
+                selectedItem.Player.Id,
+                out string message);
+
+            MessageBox.Show(message);
+
+            if (success)
+            {
+                RefreshView();
+            }
         }
 
         private void btnClose_Click(object sender, EventArgs e)

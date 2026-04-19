@@ -53,10 +53,11 @@ namespace FootballSim.WinForms
             mainLayout = new TableLayoutPanel();
             headerLayout = new TableLayoutPanel();
             actionLayout = new FlowLayoutPanel();
+            btnSave = new Button();
             contentLayout = new TableLayoutPanel();
             leftColumnLayout = new TableLayoutPanel();
             rightColumnLayout = new TableLayoutPanel();
-            btnSave = new Button();
+            btnFreeAgency = new Button();
             pnlGameplan.SuspendLayout();
             mainLayout.SuspendLayout();
             headerLayout.SuspendLayout();
@@ -146,8 +147,8 @@ namespace FootballSim.WinForms
             // 
             btnBackToMenu.AutoSize = true;
             btnBackToMenu.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            btnBackToMenu.Location = new Point(215, 0);
-            btnBackToMenu.Margin = new Padding(0);
+            btnBackToMenu.Location = new Point(331, 0);
+            btnBackToMenu.Margin = new Padding(0, 0, 10, 0);
             btnBackToMenu.Name = "btnBackToMenu";
             btnBackToMenu.Padding = new Padding(12, 6, 12, 6);
             btnBackToMenu.Size = new Size(114, 37);
@@ -340,6 +341,7 @@ namespace FootballSim.WinForms
             // 
             actionLayout.Controls.Add(btnSimWeek);
             actionLayout.Controls.Add(btnViewRoster);
+            actionLayout.Controls.Add(btnFreeAgency);
             actionLayout.Controls.Add(btnBackToMenu);
             actionLayout.Controls.Add(btnSave);
             actionLayout.Dock = DockStyle.Fill;
@@ -347,6 +349,20 @@ namespace FootballSim.WinForms
             actionLayout.Name = "actionLayout";
             actionLayout.Size = new Size(780, 42);
             actionLayout.TabIndex = 1;
+            // 
+            // btnSave
+            // 
+            btnSave.AutoSize = true;
+            btnSave.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            btnSave.Location = new Point(455, 0);
+            btnSave.Margin = new Padding(0, 0, 10, 0);
+            btnSave.Name = "btnSave";
+            btnSave.Padding = new Padding(12, 6, 12, 6);
+            btnSave.Size = new Size(99, 37);
+            btnSave.TabIndex = 7;
+            btnSave.Text = "Save Game";
+            btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
             // 
             // contentLayout
             // 
@@ -401,19 +417,19 @@ namespace FootballSim.WinForms
             rightColumnLayout.Size = new Size(306, 393);
             rightColumnLayout.TabIndex = 1;
             // 
-            // btnSave
+            // btnFreeAgency
             // 
-            btnSave.AutoSize = true;
-            btnSave.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            btnSave.Location = new Point(329, 0);
-            btnSave.Margin = new Padding(0);
-            btnSave.Name = "btnSave";
-            btnSave.Padding = new Padding(12, 6, 12, 6);
-            btnSave.Size = new Size(99, 37);
-            btnSave.TabIndex = 7;
-            btnSave.Text = "Save Game";
-            btnSave.UseVisualStyleBackColor = true;
-            btnSave.Click += btnSave_Click;
+            btnFreeAgency.AutoSize = true;
+            btnFreeAgency.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            btnFreeAgency.Location = new Point(215, 0);
+            btnFreeAgency.Margin = new Padding(0, 0, 10, 0);
+            btnFreeAgency.Name = "btnFreeAgency";
+            btnFreeAgency.Padding = new Padding(12, 6, 12, 6);
+            btnFreeAgency.Size = new Size(106, 37);
+            btnFreeAgency.TabIndex = 8;
+            btnFreeAgency.Text = "Free Agency";
+            btnFreeAgency.UseVisualStyleBackColor = true;
+            btnFreeAgency.Click += btnFreeAgency_Click;
             // 
             // FranchiseHubForm
             // 
@@ -469,5 +485,6 @@ namespace FootballSim.WinForms
         private TableLayoutPanel leftColumnLayout;
         private TableLayoutPanel rightColumnLayout;
         private Button btnSave;
+        private Button btnFreeAgency;
     }
 }

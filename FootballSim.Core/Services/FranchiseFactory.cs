@@ -7,7 +7,7 @@ namespace FootballSim.Core.Services
     {
         public League CreateDefaultLeague()
         {
-            var defs = DefaultTeamCatalog.GetTeams(); //from iteration 0.5
+            var defs = DefaultTeamCatalog.GetTeams(); // from iteration 0.5
             var league = new League();
 
             var rosterGenerator = new RosterGenerator();
@@ -46,24 +46,29 @@ namespace FootballSim.Core.Services
                 //    System.Diagnostics.Debug.WriteLine($"{team.Name} Defense Rating: {team.DefenseRating}");
                 //    System.Diagnostics.Debug.WriteLine(string.Empty);
 
-                //    var player = new Player("9999999999", "Test", "Player", PlayerPosition.QB, 99, 25, 2, team.Id);
-                //    team.Roster.Add(player);
-                //    team.DepthChart = depthChartService.CreateDefaultDepthChart(team.Roster);
+                //    //var player = new Player("9999999999", "Test", "Player", PlayerPosition.QB, 99, 25, 2, team.Id);
+                //    //team.Roster.Add(player);
+                //    //team.DepthChart = depthChartService.CreateDefaultDepthChart(team.Roster);
 
-                //    player.ApplyInjury(3);
+                //    //player.ApplyInjury(3);
 
-                //    System.Diagnostics.Debug.WriteLine(player.ToString());
-                //    // Should show: [OUT 3w]
+                //    //System.Diagnostics.Debug.WriteLine(player.ToString());
+                //    //// Should show: [OUT 3w]
 
-                //    player.AdvanceWeek();
-                //    System.Diagnostics.Debug.WriteLine(player.ToString());
-                //    // Should show: [OUT 2w]
+                //    //player.AdvanceWeek();
+                //    //System.Diagnostics.Debug.WriteLine(player.ToString());
+                //    //// Should show: [OUT 2w]
                 //}
 
                 league.Teams.Add(team);
             }
 
             CreateSimpleSchedule(league);
+
+            // NEW: Generate league-wide free agent pool
+            GenerateFreeAgents(league, rosterGenerator);
+
+            System.Diagnostics.Debug.WriteLine($"Free agents: {league.FreeAgents.Count}");
 
             return league;
         }
@@ -72,6 +77,20 @@ namespace FootballSim.Core.Services
         {
             var league = CreateDefaultLeague();
             return new FranchiseState(league, userTeamId);
+        }
+
+        private void GenerateFreeAgents(League league, RosterGenerator rosterGenerator)
+        {
+            const int freeAgentCount = 100;
+
+            for (int i = 0; i < freeAgentCount; i++)
+            {
+                var player = rosterGenerator.GenerateFreeAgentPlayer();
+
+                player.TeamId = string.Empty;
+
+                league.FreeAgents.Add(player);
+            }
         }
 
         private void WriteDepthChartDebug(Team team, DepthChartService depthChartService, PlayerPosition position)

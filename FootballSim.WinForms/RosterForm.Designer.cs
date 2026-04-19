@@ -28,129 +28,152 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblTeamName = new System.Windows.Forms.Label();
-            this.lblPosition = new System.Windows.Forms.Label();
-            this.cmbPositions = new System.Windows.Forms.ComboBox();
-            this.lstPlayers = new System.Windows.Forms.ListBox();
-            this.btnMoveUp = new System.Windows.Forms.Button();
-            this.btnMoveDown = new System.Windows.Forms.Button();
-            this.btnAutoFixPosition = new System.Windows.Forms.Button();
-            this.btnAutoFixAll = new System.Windows.Forms.Button();
-            this.btnClose = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            lblTeamName = new Label();
+            lblPosition = new Label();
+            cmbPositions = new ComboBox();
+            lstPlayers = new ListBox();
+            btnMoveUp = new Button();
+            btnMoveDown = new Button();
+            btnAutoFixPosition = new Button();
+            btnAutoFixAll = new Button();
+            btnClose = new Button();
+            lblRosterSize = new Label();
+            btnCutPlayer = new Button();
+            SuspendLayout();
             // 
             // lblTeamName
             // 
-            this.lblTeamName.AutoSize = true;
-            this.lblTeamName.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTeamName.Location = new System.Drawing.Point(24, 20);
-            this.lblTeamName.Name = "lblTeamName";
-            this.lblTeamName.Size = new System.Drawing.Size(172, 25);
-            this.lblTeamName.TabIndex = 0;
-            this.lblTeamName.Text = "Roster - TeamName";
+            lblTeamName.AutoSize = true;
+            lblTeamName.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblTeamName.Location = new Point(24, 20);
+            lblTeamName.Name = "lblTeamName";
+            lblTeamName.Size = new Size(185, 25);
+            lblTeamName.TabIndex = 0;
+            lblTeamName.Text = "Roster - TeamName";
             // 
             // lblPosition
             // 
-            this.lblPosition.AutoSize = true;
-            this.lblPosition.Location = new System.Drawing.Point(24, 64);
-            this.lblPosition.Name = "lblPosition";
-            this.lblPosition.Size = new System.Drawing.Size(50, 15);
-            this.lblPosition.TabIndex = 1;
-            this.lblPosition.Text = "Position";
+            lblPosition.AutoSize = true;
+            lblPosition.Location = new Point(24, 64);
+            lblPosition.Name = "lblPosition";
+            lblPosition.Size = new Size(50, 15);
+            lblPosition.TabIndex = 1;
+            lblPosition.Text = "Position";
             // 
             // cmbPositions
             // 
-            this.cmbPositions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbPositions.FormattingEnabled = true;
-            this.cmbPositions.Location = new System.Drawing.Point(24, 82);
-            this.cmbPositions.Name = "cmbPositions";
-            this.cmbPositions.Size = new System.Drawing.Size(180, 23);
-            this.cmbPositions.TabIndex = 2;
-            this.cmbPositions.SelectedIndexChanged += new System.EventHandler(this.cmbPositions_SelectedIndexChanged);
+            cmbPositions.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbPositions.FormattingEnabled = true;
+            cmbPositions.Location = new Point(24, 82);
+            cmbPositions.Name = "cmbPositions";
+            cmbPositions.Size = new Size(180, 23);
+            cmbPositions.TabIndex = 2;
+            cmbPositions.SelectedIndexChanged += cmbPositions_SelectedIndexChanged;
             // 
             // lstPlayers
             // 
-            this.lstPlayers.Font = new System.Drawing.Font("Consolas", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lstPlayers.FormattingEnabled = true;
-            this.lstPlayers.ItemHeight = 15;
-            this.lstPlayers.Location = new System.Drawing.Point(24, 122);
-            this.lstPlayers.Name = "lstPlayers";
-            this.lstPlayers.Size = new System.Drawing.Size(520, 259);
-            this.lstPlayers.TabIndex = 3;
-            this.lstPlayers.DoubleClick += new System.EventHandler(this.lstPlayers_DoubleClick);
+            lstPlayers.Font = new Font("Consolas", 10F);
+            lstPlayers.FormattingEnabled = true;
+            lstPlayers.Location = new Point(24, 122);
+            lstPlayers.Name = "lstPlayers";
+            lstPlayers.Size = new Size(520, 259);
+            lstPlayers.TabIndex = 3;
+            lstPlayers.DoubleClick += lstPlayers_DoubleClick;
             // 
             // btnMoveUp
             // 
-            this.btnMoveUp.Location = new System.Drawing.Point(568, 122);
-            this.btnMoveUp.Name = "btnMoveUp";
-            this.btnMoveUp.Size = new System.Drawing.Size(120, 32);
-            this.btnMoveUp.TabIndex = 4;
-            this.btnMoveUp.Text = "Move Up";
-            this.btnMoveUp.UseVisualStyleBackColor = true;
-            this.btnMoveUp.Click += new System.EventHandler(this.btnMoveUp_Click);
+            btnMoveUp.Location = new Point(568, 122);
+            btnMoveUp.Name = "btnMoveUp";
+            btnMoveUp.Size = new Size(120, 32);
+            btnMoveUp.TabIndex = 4;
+            btnMoveUp.Text = "Move Up";
+            btnMoveUp.UseVisualStyleBackColor = true;
+            btnMoveUp.Click += btnMoveUp_Click;
             // 
             // btnMoveDown
             // 
-            this.btnMoveDown.Location = new System.Drawing.Point(568, 166);
-            this.btnMoveDown.Name = "btnMoveDown";
-            this.btnMoveDown.Size = new System.Drawing.Size(120, 32);
-            this.btnMoveDown.TabIndex = 5;
-            this.btnMoveDown.Text = "Move Down";
-            this.btnMoveDown.UseVisualStyleBackColor = true;
-            this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
+            btnMoveDown.Location = new Point(568, 160);
+            btnMoveDown.Name = "btnMoveDown";
+            btnMoveDown.Size = new Size(120, 32);
+            btnMoveDown.TabIndex = 5;
+            btnMoveDown.Text = "Move Down";
+            btnMoveDown.UseVisualStyleBackColor = true;
+            btnMoveDown.Click += btnMoveDown_Click;
             // 
             // btnAutoFixPosition
             // 
-            this.btnAutoFixPosition.Location = new System.Drawing.Point(568, 226);
-            this.btnAutoFixPosition.Name = "btnAutoFixPosition";
-            this.btnAutoFixPosition.Size = new System.Drawing.Size(120, 40);
-            this.btnAutoFixPosition.TabIndex = 6;
-            this.btnAutoFixPosition.Text = "Auto Fix Position";
-            this.btnAutoFixPosition.UseVisualStyleBackColor = true;
-            this.btnAutoFixPosition.Click += new System.EventHandler(this.btnAutoFixPosition_Click);
+            btnAutoFixPosition.Location = new Point(568, 257);
+            btnAutoFixPosition.Name = "btnAutoFixPosition";
+            btnAutoFixPosition.Size = new Size(120, 40);
+            btnAutoFixPosition.TabIndex = 6;
+            btnAutoFixPosition.Text = "Auto Fix Position";
+            btnAutoFixPosition.UseVisualStyleBackColor = true;
+            btnAutoFixPosition.Click += btnAutoFixPosition_Click;
             // 
             // btnAutoFixAll
             // 
-            this.btnAutoFixAll.Location = new System.Drawing.Point(568, 278);
-            this.btnAutoFixAll.Name = "btnAutoFixAll";
-            this.btnAutoFixAll.Size = new System.Drawing.Size(120, 40);
-            this.btnAutoFixAll.TabIndex = 7;
-            this.btnAutoFixAll.Text = "Auto Fix All";
-            this.btnAutoFixAll.UseVisualStyleBackColor = true;
-            this.btnAutoFixAll.Click += new System.EventHandler(this.btnAutoFixAll_Click);
+            btnAutoFixAll.Location = new Point(568, 303);
+            btnAutoFixAll.Name = "btnAutoFixAll";
+            btnAutoFixAll.Size = new Size(120, 40);
+            btnAutoFixAll.TabIndex = 7;
+            btnAutoFixAll.Text = "Auto Fix All";
+            btnAutoFixAll.UseVisualStyleBackColor = true;
+            btnAutoFixAll.Click += btnAutoFixAll_Click;
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(568, 349);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(120, 32);
-            this.btnClose.TabIndex = 8;
-            this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            btnClose.Location = new Point(568, 349);
+            btnClose.Name = "btnClose";
+            btnClose.Size = new Size(120, 32);
+            btnClose.TabIndex = 8;
+            btnClose.Text = "Close";
+            btnClose.UseVisualStyleBackColor = true;
+            btnClose.Click += btnClose_Click;
+            // 
+            // lblRosterSize
+            // 
+            lblRosterSize.AutoSize = true;
+            lblRosterSize.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblRosterSize.Location = new Point(215, 23);
+            lblRosterSize.Name = "lblRosterSize";
+            lblRosterSize.Size = new Size(200, 21);
+            lblRosterSize.TabIndex = 9;
+            lblRosterSize.Text = "Roster: {team.Roster.Count}";
+            // 
+            // btnCutPlayer
+            // 
+            btnCutPlayer.Location = new Point(568, 198);
+            btnCutPlayer.Name = "btnCutPlayer";
+            btnCutPlayer.Size = new Size(120, 35);
+            btnCutPlayer.TabIndex = 8;
+            btnCutPlayer.Text = "Cut Player";
+            btnCutPlayer.UseVisualStyleBackColor = true;
+            btnCutPlayer.Click += btnCutPlayer_Click;
             // 
             // RosterForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(714, 411);
-            this.Controls.Add(this.btnAutoFixAll);
-            this.Controls.Add(this.btnAutoFixPosition);
-            this.Controls.Add(this.btnClose);
-            this.Controls.Add(this.btnMoveDown);
-            this.Controls.Add(this.btnMoveUp);
-            this.Controls.Add(this.lstPlayers);
-            this.Controls.Add(this.cmbPositions);
-            this.Controls.Add(this.lblPosition);
-            this.Controls.Add(this.lblTeamName);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "RosterForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Roster";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(714, 411);
+            Controls.Add(btnCutPlayer);
+            Controls.Add(lblRosterSize);
+            Controls.Add(btnAutoFixAll);
+            Controls.Add(btnAutoFixPosition);
+            Controls.Add(btnClose);
+            Controls.Add(btnMoveDown);
+            Controls.Add(btnMoveUp);
+            Controls.Add(lstPlayers);
+            Controls.Add(cmbPositions);
+            Controls.Add(lblPosition);
+            Controls.Add(lblTeamName);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "RosterForm";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Roster";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -163,6 +186,8 @@
         private System.Windows.Forms.Button btnMoveDown;
         private System.Windows.Forms.Button btnAutoFixPosition;
         private System.Windows.Forms.Button btnAutoFixAll;
+        private System.Windows.Forms.Button btnCutPlayer;
         private System.Windows.Forms.Button btnClose;
+        private Label lblRosterSize;
     }
 }

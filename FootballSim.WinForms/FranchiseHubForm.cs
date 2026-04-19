@@ -298,6 +298,14 @@ namespace FootballSim.WinForms
             RefreshView();
         }
 
+        private void btnFreeAgency_Click(object sender, EventArgs e)
+        {
+            using var freeAgencyForm = new FreeAgencyForm();
+            freeAgencyForm.ShowDialog();
+
+            RefreshView();
+        }
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (FranchiseContext.Current == null)
