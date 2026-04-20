@@ -28,6 +28,16 @@ namespace FootballSim.Core.Services
             return QualityTier.Bad;
         }
 
+        private QualityTier RollFreeAgentTier()
+        {
+            int roll = _random.Next(1, 101); // 1–100
+
+            if (roll <= 1) return QualityTier.Star;      // 1%
+            if (roll <= 8) return QualityTier.Good;      // 7%
+            if (roll <= 38) return QualityTier.Average;  // 30%
+            return QualityTier.Bad;                      // 62%
+        }
+
         private int GetBiasedValue(int min, int max, QualityTier tier)
         {
             int range = max - min;
@@ -264,11 +274,37 @@ namespace FootballSim.Core.Services
 
             AssignAttributes(player);
 
-            // Calculate Overall
             player.Overall = PlayerOverallCalculator.Calculate(player);
 
             return player;
         }
 
+        public Player CreateFreeAgentPlayer(PlayerPosition position)
+        {
+            var firstName = FirstNames[_random.Next(FirstNames.Length)];
+            var lastName = LastNames[_random.Next(LastNames.Length)];
+
+            // Free agents skew a little older than rostered players
+            int age = _random.Next(24, 34);
+            int yearsPro = Math.Max(0, age - (21 + _random.Next(0, 3)));
+
+            var player = new Player(
+                Guid.NewGuid().ToString(),
+                firstName,
+                lastName,
+                position,
+                age,
+                yearsPro,
+                string.Empty
+            );
+
+            player.Tier = RollFreeAgentTier();
+
+            AssignAttributes(player);
+
+            player.Overall = PlayerOverallCalculator.Calculate(player);
+
+            return player;
+        }
     }
 }

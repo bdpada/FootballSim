@@ -8,21 +8,21 @@ namespace FootballSim.Core.Services
 
         public void GenerateRoster(Team team)
         {
-            AddPlayers(team, PlayerPosition.QB, 2);
-            AddPlayers(team, PlayerPosition.RB, 2);
-            AddPlayers(team, PlayerPosition.WR, 4);
-            AddPlayers(team, PlayerPosition.TE, 2);
+            AddPlayers(team, PlayerPosition.QB, 3);
+            AddPlayers(team, PlayerPosition.RB, 4);
+            AddPlayers(team, PlayerPosition.WR, 6);
+            AddPlayers(team, PlayerPosition.TE, 3);
 
             AddPlayers(team, PlayerPosition.C, 2);
-            AddPlayers(team, PlayerPosition.G, 3);
-            AddPlayers(team, PlayerPosition.T, 3);
+            AddPlayers(team, PlayerPosition.G, 4);
+            AddPlayers(team, PlayerPosition.T, 4);
 
-            AddPlayers(team, PlayerPosition.DE, 3);
-            AddPlayers(team, PlayerPosition.DT, 3);
-            AddPlayers(team, PlayerPosition.ILB, 3);
-            AddPlayers(team, PlayerPosition.OLB, 3);
-            AddPlayers(team, PlayerPosition.CB, 4);
-            AddPlayers(team, PlayerPosition.S, 3);
+            AddPlayers(team, PlayerPosition.DE, 4);
+            AddPlayers(team, PlayerPosition.DT, 4);
+            AddPlayers(team, PlayerPosition.ILB, 4);
+            AddPlayers(team, PlayerPosition.OLB, 4);
+            AddPlayers(team, PlayerPosition.CB, 6);
+            AddPlayers(team, PlayerPosition.S, 4);
 
             AddPlayers(team, PlayerPosition.K, 1);
         }
@@ -30,7 +30,7 @@ namespace FootballSim.Core.Services
         public Player GenerateFreeAgentPlayer()
         {
             var position = GetRandomFreeAgentPosition();
-            return _playerGenerator.CreatePlayer(position, string.Empty);
+            return _playerGenerator.CreateFreeAgentPlayer(position);
         }
 
         private void AddPlayers(Team team, PlayerPosition position, int count)
