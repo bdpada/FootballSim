@@ -8,6 +8,7 @@
 
         //User's weekly strategy settings. No need to alter each team yet
         public WeeklyGameplan WeeklyGameplan { get; set; } = new();
+        public SeasonPhase SeasonPhase { get; set; } = SeasonPhase.RegularSeason;
 
         public FranchiseState() { } // Parameterless constructor for deserialization
 

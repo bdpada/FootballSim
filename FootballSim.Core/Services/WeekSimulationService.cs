@@ -8,6 +8,7 @@ namespace FootballSim.Core.Services
     {
         private readonly IGameSimulator _gameSimulator;
         private readonly Random _random = new();
+        private readonly PlayoffService _playoffService = new();
 
         public WeekSimulationService(IGameSimulator gameSimulator)
         {
@@ -21,6 +22,12 @@ namespace FootballSim.Core.Services
 
             if (scheduledGames.Count == 0)
             {
+                if (franchise.SeasonPhase == SeasonPhase.RegularSeason)
+                {
+                    _playoffService.GeneratePlayoffSeeds(franchise.League);
+                    franchise.SeasonPhase = SeasonPhase.Playoffs;
+                }
+
                 return null;
             }
 
@@ -45,6 +52,18 @@ namespace FootballSim.Core.Services
 
             franchise.League.CompletedWeeks.Add(weekResult);
             franchise.CurrentWeek++;
+
+            if (franchise.SeasonPhase == SeasonPhase.RegularSeason)
+            {
+                bool hasNextRegularSeasonWeek =
+                    franchise.League.Schedule.GetGamesForWeek(franchise.CurrentWeek).Count > 0;
+
+                if (!hasNextRegularSeasonWeek)
+                {
+                    _playoffService.GeneratePlayoffSeeds(franchise.League);
+                    franchise.SeasonPhase = SeasonPhase.Playoffs;
+                }
+            }
 
             return weekResult;
         }

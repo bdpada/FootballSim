@@ -86,6 +86,30 @@ namespace FootballSim.WinForms
             RefreshView();
         }
 
+        private string BuildPlayoffSeedSummary()
+        {
+            var franchise = FranchiseContext.Current;
+
+            if (franchise == null || franchise.League.PlayoffSeeds.Count == 0)
+                return "Playoff field has not been set yet.";
+
+            var sb = new StringBuilder();
+
+            sb.AppendLine("Playoff Seeds");
+            sb.AppendLine();
+
+            foreach (var seed in franchise.League.PlayoffSeeds.OrderBy(s => s.SeedNumber))
+            {
+                var team = franchise.League.GetTeamById(seed.TeamId);
+
+                if (team != null)
+                {
+                    sb.AppendLine($"{seed.SeedNumber}. {team.Name} ({team.Record})");
+                }
+            }
+
+            return sb.ToString();
+        }
 
         private void RefreshView()
         {
@@ -109,11 +133,25 @@ namespace FootballSim.WinForms
             RefreshGameplanDisplay();
 
             bool hasGamesRemaining = franchise.League.Schedule.GetGamesForWeek(franchise.CurrentWeek).Count > 0;
-            btnSimWeek.Enabled = hasGamesRemaining;
 
-            if (!hasGamesRemaining)
+            if (franchise.SeasonPhase == SeasonPhase.RegularSeason)
             {
-                lblWeek.Text += " - End of Schedule";
+                btnSimWeek.Enabled = hasGamesRemaining;
+
+                if (!hasGamesRemaining)
+                {
+                    lblWeek.Text += " - End of Regular Season";
+                }
+            }
+            else if (franchise.SeasonPhase == SeasonPhase.Playoffs)
+            {
+                btnSimWeek.Enabled = false;
+                lblWeek.Text = "Playoffs - Not Yet Implemented";
+            }
+            else if (franchise.SeasonPhase == SeasonPhase.SeasonComplete)
+            {
+                btnSimWeek.Enabled = false;
+                lblWeek.Text = "Season Complete";
             }
         }
 
@@ -244,7 +282,16 @@ namespace FootballSim.WinForms
 
             if (weekResult == null)
             {
-                MessageBox.Show("No games are scheduled for the current week.");
+                if (franchise.SeasonPhase == SeasonPhase.Playoffs)
+                {
+                    MessageBox.Show("Regular season complete. Entering playoffs.");
+                    txtResults.Text = BuildPlayoffSeedSummary();
+                }
+                else
+                {
+                    MessageBox.Show("No games are scheduled for the current week.");
+                }
+
                 RefreshView();
                 return;
             }
@@ -284,6 +331,14 @@ namespace FootballSim.WinForms
             }
 
             sb.AppendLine(BuildUserTeamInjurySummary());
+
+            if (franchise.SeasonPhase == SeasonPhase.Playoffs)
+            {
+                sb.AppendLine();
+                sb.AppendLine("Regular season complete. Playoff field is set.");
+                sb.AppendLine();
+                sb.AppendLine(BuildPlayoffSeedSummary());
+            }
 
             txtResults.Text = sb.ToString();
 
