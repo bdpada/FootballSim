@@ -111,6 +111,43 @@ namespace FootballSim.WinForms
             return sb.ToString();
         }
 
+        private string BuildPlayoffMatchupSummary()
+        {
+            var franchise = FranchiseContext.Current;
+
+            if (franchise == null || franchise.League.PlayoffMatchups.Count == 0)
+                return "No playoff matchups have been generated yet.";
+
+            var sb = new StringBuilder();
+
+            sb.AppendLine("Playoff Matchups");
+            sb.AppendLine();
+
+            foreach (var matchup in franchise.League.PlayoffMatchups
+                         .OrderBy(m => m.Round)
+                         .ThenBy(m => m.MatchupNumber))
+            {
+                var homeTeam = franchise.League.GetTeamById(matchup.HomeTeamId);
+                var awayTeam = franchise.League.GetTeamById(matchup.AwayTeamId);
+
+                if (homeTeam == null || awayTeam == null)
+                    continue;
+
+                sb.AppendLine($"{matchup.Round} Game {matchup.MatchupNumber}:");
+                sb.AppendLine($"{awayTeam.Name} at {homeTeam.Name}");
+
+                if (matchup.IsCompleted)
+                {
+                    var winner = franchise.League.GetTeamById(matchup.WinnerTeamId);
+                    sb.AppendLine($"Winner: {winner?.Name ?? matchup.WinnerTeamId}");
+                }
+
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
+        }
+
         private void RefreshView()
         {
             if (FranchiseContext.Current == null)
@@ -146,7 +183,7 @@ namespace FootballSim.WinForms
             else if (franchise.SeasonPhase == SeasonPhase.Playoffs)
             {
                 btnSimWeek.Enabled = false;
-                lblWeek.Text = "Playoffs - Not Yet Implemented";
+                lblWeek.Text = $"Playoffs - {franchise.League.CurrentPlayoffRound}";
             }
             else if (franchise.SeasonPhase == SeasonPhase.SeasonComplete)
             {
@@ -338,6 +375,9 @@ namespace FootballSim.WinForms
                 sb.AppendLine("Regular season complete. Playoff field is set.");
                 sb.AppendLine();
                 sb.AppendLine(BuildPlayoffSeedSummary());
+                sb.AppendLine();
+                sb.AppendLine(BuildPlayoffMatchupSummary());
+
             }
 
             txtResults.Text = sb.ToString();

@@ -25,5 +25,37 @@ namespace FootballSim.Core.Services
                 });
             }
         }
+
+        public void GenerateSemifinalMatchups(League league)
+        {
+            league.PlayoffMatchups.Clear();
+            league.CurrentPlayoffRound = PlayoffRound.Semifinal;
+            league.ChampionTeamId = string.Empty;
+
+            var seeds = league.PlayoffSeeds
+                .OrderBy(s => s.SeedNumber)
+                .ToList();
+
+            if (seeds.Count < 4)
+            {
+                throw new InvalidOperationException("At least 4 playoff seeds are required to generate semifinal matchups.");
+            }
+
+            league.PlayoffMatchups.Add(new PlayoffMatchup
+            {
+                Round = PlayoffRound.Semifinal,
+                MatchupNumber = 1,
+                HomeTeamId = seeds[0].TeamId, // 1 seed
+                AwayTeamId = seeds[3].TeamId  // 4 seed
+            });
+
+            league.PlayoffMatchups.Add(new PlayoffMatchup
+            {
+                Round = PlayoffRound.Semifinal,
+                MatchupNumber = 2,
+                HomeTeamId = seeds[1].TeamId, // 2 seed
+                AwayTeamId = seeds[2].TeamId  // 3 seed
+            });
+        }
     }
 }

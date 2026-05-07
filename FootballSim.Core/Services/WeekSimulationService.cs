@@ -25,6 +25,7 @@ namespace FootballSim.Core.Services
                 if (franchise.SeasonPhase == SeasonPhase.RegularSeason)
                 {
                     _playoffService.GeneratePlayoffSeeds(franchise.League);
+                    _playoffService.GenerateSemifinalMatchups(franchise.League);
                     franchise.SeasonPhase = SeasonPhase.Playoffs;
                 }
 
@@ -61,6 +62,7 @@ namespace FootballSim.Core.Services
                 if (!hasNextRegularSeasonWeek)
                 {
                     _playoffService.GeneratePlayoffSeeds(franchise.League);
+                    _playoffService.GenerateSemifinalMatchups(franchise.League);
                     franchise.SeasonPhase = SeasonPhase.Playoffs;
                 }
             }
