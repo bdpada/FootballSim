@@ -9,6 +9,8 @@
         //User's weekly strategy settings. No need to alter each team yet
         public WeeklyGameplan WeeklyGameplan { get; set; } = new();
         public SeasonPhase SeasonPhase { get; set; } = SeasonPhase.RegularSeason;
+        // This allows save/load to preserve what the user last saw.
+        public string LastSummaryText { get; set; } = string.Empty;
 
         public FranchiseState() { } // Parameterless constructor for deserialization
 

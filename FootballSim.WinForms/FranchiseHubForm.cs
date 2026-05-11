@@ -17,6 +17,23 @@ namespace FootballSim.WinForms
         private readonly DepthChartService _depthChartService = new();
         private readonly ISaveService _saveService = new JsonSaveService();
 
+        public FranchiseHubForm()
+        {
+            InitializeComponent();
+            LoadGameplanControls();
+
+            _weekSimulationService =
+                new WeekSimulationService(
+                    new SimpleGameSimulatorV1(GetWeeklyGameplanForTeam));
+
+            RefreshView();
+
+            if (FranchiseContext.Current != null)
+            {
+                txtResults.Text = FranchiseContext.Current.LastSummaryText;
+            }
+        }
+
         private void LoadGameplanControls()
         {
             if (FranchiseContext.Current == null)
@@ -76,14 +93,6 @@ namespace FootballSim.WinForms
             }
 
             return null;
-        }
-
-        public FranchiseHubForm()
-        {
-            InitializeComponent();
-            LoadGameplanControls();
-            _weekSimulationService = new WeekSimulationService(new SimpleGameSimulatorV1(GetWeeklyGameplanForTeam));
-            RefreshView();
         }
 
         private string BuildPlayoffSeedSummary()
@@ -433,7 +442,8 @@ namespace FootballSim.WinForms
                     playoffSb.AppendLine(BuildSeasonCompleteSummary());
                 }
 
-                txtResults.Text = playoffSb.ToString();
+                franchise.LastSummaryText = playoffSb.ToString();
+                txtResults.Text = franchise.LastSummaryText;
 
                 RefreshView();
                 return;
@@ -494,7 +504,8 @@ namespace FootballSim.WinForms
                 sb.AppendLine(BuildPlayoffMatchupSummary());
             }
 
-            txtResults.Text = sb.ToString();
+            franchise.LastSummaryText = sb.ToString();
+            txtResults.Text = franchise.LastSummaryText;
 
             RefreshView();
         }
