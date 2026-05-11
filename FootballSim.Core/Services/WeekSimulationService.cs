@@ -159,5 +159,24 @@ namespace FootballSim.Core.Services
                 }
             }
         }
+
+        public List<GameResult> SimulatePlayoffRound(FranchiseState franchise)
+        {
+            if (franchise.SeasonPhase != SeasonPhase.Playoffs)
+            {
+                throw new InvalidOperationException("Cannot simulate playoff round unless franchise is in Playoffs phase.");
+            }
+
+            var results = _playoffService.SimulateCurrentPlayoffRound(
+                franchise.League,
+                _gameSimulator);
+
+            if (!string.IsNullOrWhiteSpace(franchise.League.ChampionTeamId))
+            {
+                franchise.SeasonPhase = SeasonPhase.SeasonComplete;
+            }
+
+            return results;
+        }
     }
 }

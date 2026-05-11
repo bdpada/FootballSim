@@ -148,6 +148,89 @@ namespace FootballSim.WinForms
             return sb.ToString();
         }
 
+        private string BuildUserPlayoffStatus()
+        {
+            var franchise = FranchiseContext.Current;
+
+            if (franchise == null)
+                return string.Empty;
+
+            bool userMadePlayoffs = franchise.League.PlayoffSeeds
+                .Any(s => s.TeamId == franchise.UserTeamId);
+
+            if (!userMadePlayoffs)
+            {
+                return "Your team missed the playoffs.";
+            }
+
+            if (franchise.SeasonPhase == SeasonPhase.SeasonComplete)
+            {
+                if (franchise.League.ChampionTeamId == franchise.UserTeamId)
+                {
+                    return "Your team won the championship!";
+                }
+
+                return "Your team was eliminated from the playoffs.";
+            }
+
+            var activeMatchup = franchise.League.PlayoffMatchups
+                .FirstOrDefault(m =>
+                    !m.IsCompleted &&
+                    (m.HomeTeamId == franchise.UserTeamId || m.AwayTeamId == franchise.UserTeamId));
+
+            if (activeMatchup != null)
+            {
+                var opponentId = activeMatchup.HomeTeamId == franchise.UserTeamId
+                    ? activeMatchup.AwayTeamId
+                    : activeMatchup.HomeTeamId;
+
+                var opponent = franchise.League.GetTeamById(opponentId);
+
+                return $"Your next playoff opponent is {opponent?.Name ?? opponentId}.";
+            }
+
+            return "Your team is waiting for the next playoff round.";
+        }
+
+        private string BuildSeasonCompleteSummary()
+        {
+            var franchise = FranchiseContext.Current;
+
+            if (franchise == null)
+                return string.Empty;
+
+            var champion = franchise.League.GetTeamById(franchise.League.ChampionTeamId);
+
+            var sb = new StringBuilder();
+
+            sb.AppendLine("Season Complete");
+            sb.AppendLine();
+            sb.AppendLine($"Champion: {champion?.Name ?? franchise.League.ChampionTeamId}");
+            sb.AppendLine();
+            sb.AppendLine(BuildUserPlayoffStatus());
+            sb.AppendLine();
+
+            sb.AppendLine("Final Standings");
+            sb.AppendLine();
+
+            var standings = franchise.League.Teams
+                .OrderByDescending(t => t.Record.Wins)
+                .ThenBy(t => t.Record.Losses)
+                .ThenByDescending(t => t.Record.PointsFor - t.Record.PointsAgainst)
+                .ThenBy(t => t.Id)
+                .ToList();
+
+            foreach (var team in standings)
+            {
+                int pointDiff = team.Record.PointsFor - team.Record.PointsAgainst;
+
+                sb.AppendLine(
+                    $"{team.Id} {team.Record} PF:{team.Record.PointsFor} PA:{team.Record.PointsAgainst} PD:{pointDiff}");
+            }
+
+            return sb.ToString();
+        }
+
         private void RefreshView()
         {
             if (FranchiseContext.Current == null)
@@ -173,6 +256,7 @@ namespace FootballSim.WinForms
 
             if (franchise.SeasonPhase == SeasonPhase.RegularSeason)
             {
+                btnSimWeek.Text = "Sim Week";
                 btnSimWeek.Enabled = hasGamesRemaining;
 
                 if (!hasGamesRemaining)
@@ -182,13 +266,16 @@ namespace FootballSim.WinForms
             }
             else if (franchise.SeasonPhase == SeasonPhase.Playoffs)
             {
-                btnSimWeek.Enabled = false;
+                btnSimWeek.Enabled = true;
+                btnSimWeek.Text = "Sim Playoff Round";
                 lblWeek.Text = $"Playoffs - {franchise.League.CurrentPlayoffRound}";
             }
             else if (franchise.SeasonPhase == SeasonPhase.SeasonComplete)
             {
                 btnSimWeek.Enabled = false;
-                lblWeek.Text = "Season Complete";
+                btnSimWeek.Text = "Season Complete";
+                var champion = franchise.League.GetTeamById(franchise.League.ChampionTeamId);
+                lblWeek.Text = $"Season Complete - Champion: {champion?.Name ?? franchise.League.ChampionTeamId}";
             }
         }
 
@@ -315,20 +402,48 @@ namespace FootballSim.WinForms
             }
 
             var franchise = FranchiseContext.Current;
+
+            if (franchise.SeasonPhase == SeasonPhase.Playoffs)
+            {
+                var roundBeingSimulated = franchise.League.CurrentPlayoffRound;
+                var playoffResults = _weekSimulationService.SimulatePlayoffRound(franchise);
+
+                var playoffSb = new StringBuilder();
+
+                playoffSb.AppendLine($"Playoff Round Results - {roundBeingSimulated}");
+                playoffSb.AppendLine();
+
+                foreach (var result in playoffResults)
+                {
+                    var awayTeam = franchise.League.GetTeamById(result.AwayTeamId);
+                    var homeTeam = franchise.League.GetTeamById(result.HomeTeamId);
+
+                    if (awayTeam == null || homeTeam == null)
+                        continue;
+
+                    playoffSb.AppendLine($"{awayTeam.Name} {result.AwayStats.Points} - {result.HomeStats.Points} {homeTeam.Name}");
+                    playoffSb.AppendLine();
+                }
+
+                playoffSb.AppendLine(BuildPlayoffMatchupSummary());
+
+                if (franchise.SeasonPhase == SeasonPhase.SeasonComplete)
+                {
+                    playoffSb.AppendLine();
+                    playoffSb.AppendLine(BuildSeasonCompleteSummary());
+                }
+
+                txtResults.Text = playoffSb.ToString();
+
+                RefreshView();
+                return;
+            }
+
             var weekResult = _weekSimulationService.SimulateWeek(franchise);
 
             if (weekResult == null)
             {
-                if (franchise.SeasonPhase == SeasonPhase.Playoffs)
-                {
-                    MessageBox.Show("Regular season complete. Entering playoffs.");
-                    txtResults.Text = BuildPlayoffSeedSummary();
-                }
-                else
-                {
-                    MessageBox.Show("No games are scheduled for the current week.");
-                }
-
+                MessageBox.Show("No games are scheduled for the current week.");
                 RefreshView();
                 return;
             }
@@ -377,7 +492,6 @@ namespace FootballSim.WinForms
                 sb.AppendLine(BuildPlayoffSeedSummary());
                 sb.AppendLine();
                 sb.AppendLine(BuildPlayoffMatchupSummary());
-
             }
 
             txtResults.Text = sb.ToString();
