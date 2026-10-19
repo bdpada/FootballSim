@@ -13,3 +13,6 @@ packages and build; the xUnit Visual Studio adapter enables Test Explorer discov
 Close a running Debug instance before building Debug, or use Release to avoid locked DLLs.
 
 See [the Iteration 9A report](FootballSim.Tests/README.md) for coverage, limitations and validation results.
+
+See [the Iteration 9B lifecycle report](FootballSim.Tests/Iteration9B.md) for the
+shutdown fix, manual regression checklist and validation results.

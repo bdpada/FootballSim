@@ -22,9 +22,7 @@ namespace FootballSim.WinForms
                 MessageBox.Show($"Selected Team: {newGameForm.CreatedFranchise.UserTeam?.Name}");
                 FranchiseContext.Set(newGameForm.CreatedFranchise);
 
-                var hub = new FranchiseHubForm();
-                hub.Show();
-                this.Hide();
+                OpenFranchiseHub();
             }
         }
 
@@ -42,9 +40,7 @@ namespace FootballSim.WinForms
 
                 FranchiseContext.Set(franchise);
 
-                var hub = new FranchiseHubForm();
-                hub.Show();
-                this.Hide();
+                OpenFranchiseHub();
             }
             catch (Exception ex)
             {
@@ -52,9 +48,32 @@ namespace FootballSim.WinForms
             }
         }
 
+        private void OpenFranchiseHub()
+        {
+            var result = DialogResult.Cancel;
+
+            try
+            {
+                using var hub = new FranchiseHubForm();
+                Hide();
+                result = hub.ShowDialog(this);
+            }
+            finally
+            {
+                FranchiseContext.Clear();
+
+                if (!IsDisposed && !Disposing)
+                    Show();
+            }
+
+            // Back to Menu reuses this form; the hub's X closes the application.
+            if (result != DialogResult.OK)
+                Close();
+        }
+
         private void btnExit_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            Close();
         }
     }
 }

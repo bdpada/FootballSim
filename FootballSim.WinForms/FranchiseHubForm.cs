@@ -11,7 +11,6 @@ namespace FootballSim.WinForms
 {
     public partial class FranchiseHubForm : Form
     {
-        private bool _isNavigatingToMainMenu = false;
         private bool _isLoadingGameplanControls = false;
         private readonly WeekSimulationService _weekSimulationService;
         private readonly DepthChartService _depthChartService = new();
@@ -388,12 +387,7 @@ namespace FootballSim.WinForms
 
         private void ReturnToMainMenu()
         {
-            _isNavigatingToMainMenu = true;
-
-            FranchiseContext.Clear();
-
-            var menu = new MainMenuForm();
-            menu.Show();
+            DialogResult = DialogResult.OK;
             Close();
         }
 
@@ -565,14 +559,5 @@ namespace FootballSim.WinForms
             }
         }
 
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            if (_isNavigatingToMainMenu)
-            {
-                return;
-            }
-
-            Application.Exit();
-        }
     }
 }
